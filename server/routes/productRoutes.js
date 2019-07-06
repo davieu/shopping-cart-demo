@@ -50,8 +50,8 @@ module.exports = app => {
       const result = await Product.deleteOne({ _id: req.params.id }).exec();
       // Sends the result status of the delete and the product deleted
       res.send({
-        result,
-        deletedProduct
+        deletedProduct,
+        result
       })
 
     } catch(err) {
