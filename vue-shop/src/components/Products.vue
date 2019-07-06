@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <h1>Products</h1>
-      <div class="products-list">
-        <form action=""></form>
-        <input type="text" placeholder="Add Todo...">
-        <input type="submit" value="Submit">
-      </div>
+  <div>      
       {{ allProducts }}
   </div>
 </template>
@@ -29,6 +23,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+body {
+  font-family: "Franklin Gothic Medium", "Ariel Narrow", Arial, sans-serif;
+  line-height: 1.6;
+  background: #e8f7f0
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  overflow: auto;
+  padding: 0 2rem;
+}
 h3 {
   margin: 40px 0 0;
 }
