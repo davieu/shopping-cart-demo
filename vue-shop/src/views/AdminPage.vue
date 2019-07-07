@@ -1,5 +1,5 @@
 <template>
-  <div class="create-product">
+  <div class="adminPage">
     <FormSubmit/>
   </div>
 </template>
@@ -8,7 +8,7 @@
 import FormSubmit from '@/components/FormSubmit.vue'
 
 export default {
-  name: 'createProduct',
+  name: 'adminPage',
   components: {
     FormSubmit
   }

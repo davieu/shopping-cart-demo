@@ -47,12 +47,17 @@ module.exports = app => {
 
     try {
       const deletedProduct = await Product.findById(req.params.id).exec();
-      const result = await Product.deleteOne({ _id: req.params.id }).exec();
-      // Sends the result status of the delete and the product deleted
-      res.send({
-        deletedProduct,
-        result
+      if (deletedProduct.cannotDelete === true) {
+        res.send({msg: 'Cannot delete this item. It is protected'})
+      } else {
+        const result = await Product.deleteOne({ _id: req.params.id }).exec();
+        // Sends the result status of the delete and the product deleted
+        res.send({
+          deletedProduct,
+          result
       })
+      }
+      
 
     } catch(err) {
       res.status(404).send({

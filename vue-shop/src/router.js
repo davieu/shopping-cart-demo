@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import CreateProduct from './views/CreateProduct.vue'
+import AdminPage from './views/AdminPage.vue'
 
 Vue.use(Router)
 
@@ -15,9 +15,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/create-product',
-      name: 'create-product',
-      component: CreateProduct
+      path: '/admin-page',
+      name: 'admin-page',
+      component: AdminPage
     }
   ]
 })

@@ -1,21 +1,57 @@
 <template>
   <div>      
     <b-container>
-      <div>
-        <div>
-          <b-button v-b-modal.modal-1>Shopping Cart: {{ getCartItemsLength }}</b-button>
+      <!-- MODAL BEGINS -->
+      <div class="modal-div">
+        <b-row>
+          <b-col>
+            <b-button v-b-toggle.collapse-a.collapse-b variant="primary">Special Offers!</b-button>
+          </b-col>
+          <b-col>
+            <b-button class="open-cart-btn" v-b-modal.modal-1 variant="primary">Shopping Cart: {{ getCartItemsLength }}</b-button>
+          </b-col>
+        </b-row>
 
-          <b-modal id="modal-1" size="sm" title="Cart">
-            <div v-for="(item, index) in getShoppingCart" :key="index">
-              {{item.product.productName}}: <span class="product-count"> {{item.product.count}}</span><button @click="decrementCart(item.product.productName, item.product.price)">-</button>
+        <b-collapse id="collapse-a" class="mt-2">
+          <b-card class="special-offers-cards">Buy one, get one free on apples!</b-card>
+        </b-collapse>
+        <b-collapse id="collapse-b" class="mt-2">
+          <b-card class="special-offers-cards">3 for the price of 2 on oranges!</b-card>
+        </b-collapse>
+
+        <b-modal id="modal-1" size="sm" title="Cart">
+          <div v-if="getCartItemsLength > 0">
+            <div v-for="(item, index) in getShoppingCart" :key="index" >
+            {{item.product.productName}}: <span class="product-count"> {{item.product.count}}</span>
+            <div class="cart-btns"> 
+            <button class="in-cart-del-btn" mb="1" @click="decrementCart(item.product.productName, item.product.price)"><b>-</b></button>
+            <button class="in-cart-add-btn" @click="incrementCart(item.product.productName, item.product.price)"><b>+</b></button>
             </div>
-            <hr>
-            <p >Sub Total: <span class="product-totals">{{ getSubTotal }}</span> </p> 
-            <p >Tax: <span class="product-totals">{{ getTax }}</span> </p>  
-            <p >Order Total: <span class="product-totals">{{ getOrderTotal }}</span></p>  
-          </b-modal>
-        </div>
+
+            </div>
+          </div>
+          <div v-if="getCartItemsLength < 1">
+            <p>Take a look around the Shop!</p>
+          </div>
+          
+          <hr>
+          <p>Sub Total: <span class="product-totals">{{ getSubTotal }}</span> </p> 
+          <p>Tax: <span class="product-totals">{{ getTax }}</span> </p>  
+          <p><b>Order Total:</b> <span class="product-totals"><b>{{ getOrderTotal }}</b></span></p>  
+                <div slot="modal-footer" class="w-100">
+        <p class="float-left"></p>
+        <b-button
+          variant="primary"
+          class="float-right"
+          @checkout="show=false"
+        >
+          Checkout
+        </b-button>
+  
       </div>
+        </b-modal>
+      </div>
+      <!-- PRODUCTS BEGIN -->
       <b-row>
         <b-col cols="6" md="4" v-for="(product) in allProducts" :key="product._id">
           <b-card-group deck class="mb-3">
@@ -23,7 +59,7 @@
             <p class="price">Price: {{ formatPrices(product.price) }}</p>
             <hr>
             <b-card-text>{{product.description}}</b-card-text>
-            <b-button @click="incrementCart(product._id, product.productName, product.price)" variant="success" class="add-cart-btn">Add to Cart!</b-button>
+            <b-button @click="incrementCart(product.productName, product.price, product._id)" variant="success" class="add-cart-btn">Add to Cart!</b-button>
           </b-card>
           </b-card-group>
         </b-col>
@@ -61,8 +97,8 @@ export default {
         return '$ ' + returnPrice //just adds a $ to the prices
       } catch(err) {}
     },
-    incrementCart(id, productName, price) {
-      let payload = {id, productName, price};
+    incrementCart(productName, price, id) {
+      let payload = {productName, price, id};
       this.addProductToCart(payload)
     },
     decrementCart(productName, price) {
@@ -88,6 +124,7 @@ body {
   background: #e8f7f0
 }
 
+
 .modal-content {
   p {
     margin: 0;
@@ -98,7 +135,40 @@ body {
   }
 }
 
+.open-cart-btn {
+  position: absolute;
+  right: 7%;
+}
 
+.modal-div {
+  margin-bottom: 20px;
+}
+
+.cart-btns {
+  display: inline;
+  position: absolute;
+  right: 35px;
+}
+
+.in-cart-del-btn {
+  // height: 20px;
+  // width: 20px;
+  // margin-bottom: 5px;
+  // padding-bottom: 1px;
+  padding-right: 10px;
+  background: #faafa5
+  // position: absolute;
+  // right: 75px
+}
+
+.in-cart-add-btn {
+  // position: absolute;
+  background: #41b883;
+  //  height: 20px;
+  // width: 20px;
+  // margin-bottom: 70px
+  // right: 50px
+}
 .product-count {
   position: absolute;
   right: 100px;
@@ -113,6 +183,11 @@ body {
   border-radius: 8px;
   height: 275px;
 }
+
+.special-offers-cards {
+  height: auto;
+}
+
 
 .card-header {
   background: #41b883;

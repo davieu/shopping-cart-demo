@@ -17,6 +17,42 @@
         </div>
       </form>
     </div>
+
+  <h1>Delete Product</h1>
+    <div class="products-list">
+      <form @submit="onSubmit">
+        <input type="text" class="input-field" v-model="formData.productName" required placeholder="Product name...">
+        <br/>
+        <input type="number" step="0.01" class="input-field" v-model="formData.price" required placeholder="Price...">
+        <br/>
+        <input type="text" class="input-field" v-model="formData.description" required placeholder="Description...">
+        <br/>
+        <b-button type="submit" value="Submit" variant="success">Submit</b-button>
+        <div class="error-handler-div" :class="{'success': getRequestStatus, 'error': !getRequestStatus}">
+          <span class="err-symbol" v-if="getRequestStatus"><b>&#10004;</b></span>
+          <span class="err-symbol" v-if="getRequestStatus === false"><b> X </b></span>
+          <span> {{successOrErrorHandler}}</span>
+        </div>
+      </form>
+    </div>
+
+  <h1>Activate Promotions</h1>
+    <div class="products-list">
+      <form @submit="onSubmit">
+        <input type="text" class="input-field" v-model="formData.productName" required placeholder="Product name...">
+        <br/>
+        <input type="number" step="0.01" class="input-field" v-model="formData.price" required placeholder="Price...">
+        <br/>
+        <input type="text" class="input-field" v-model="formData.description" required placeholder="Description...">
+        <br/>
+        <b-button type="submit" value="Submit" variant="success">Submit</b-button>
+        <div class="error-handler-div" :class="{'success': getRequestStatus, 'error': !getRequestStatus}">
+          <span class="err-symbol" v-if="getRequestStatus"><b>&#10004;</b></span>
+          <span class="err-symbol" v-if="getRequestStatus === false"><b> X </b></span>
+          <span> {{successOrErrorHandler}}</span>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
