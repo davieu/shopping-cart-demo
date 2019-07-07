@@ -1,15 +1,21 @@
 import axios from 'axios';
 
-
 export default {
   async fetchProducts({ commit }) {
     const response = await axios.get('http://localhost:5001/api/products');
     // First param is the mutation we want to call. second is the data that we are passing in to the mutation.
     commit('setProducts', response.data)
   },
+
   async addProduct({ commit }, payload) {
-    console.log(payload)
-    const response = await axios.post('http://localhost:5001/api/product', {productName: "oo", price:3.5555, description:"vvvv"})
-    commit('newProduct', response.data)
+    try {
+      const response = await axios.post('http://localhost:5001/api/product', payload)
+      commit('newProduct', response.data)
+
+    } catch(err) {
+      const errObj = {errMsg: 'Product name already in use.', err}
+      commit('sendError', errObj.errMsg)
+      console.error(errObj)
+    }
   }
 }

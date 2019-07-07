@@ -1,3 +1,5 @@
 export default {
-  products: []
+  products: [],
+  errorMsg: '',
+  requestStatus: null
 }

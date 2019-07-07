@@ -1,6 +1,20 @@
 <template>
   <div>      
-      {{ allProducts }}
+      <!-- {{ allProducts }} -->
+      
+    <b-container>
+            <b-row>
+              <b-col cols="4" v-for="(product) in allProducts" :key="product._id">
+                <b-card-group deck class="mb-3">
+                <b-card border-variant="light" :header="product.productName" class="text-center" >
+                  <b-card-text>{{product.description}}</b-card-text>
+                  <b-button>Add to Cart!</b-button>
+                </b-card>
+                </b-card-group>
+              </b-col>
+            </b-row>
+    </b-container>
+     
   </div>
 </template>
 
@@ -29,12 +43,6 @@ body {
   background: #e8f7f0
 }
 
-.container {
-  max-width: 1100px;
-  margin: auto;
-  overflow: auto;
-  padding: 0 2rem;
-}
 h3 {
   margin: 40px 0 0;
 }
