@@ -20,5 +20,8 @@ export default {
   },
   addProductToCart({ commit }, payload) {
     commit('pushProductToCart', payload)
+  },
+  removeProductFromCart({ commit }, payload) {
+    commit('removeFromCart', payload)
   }
 }

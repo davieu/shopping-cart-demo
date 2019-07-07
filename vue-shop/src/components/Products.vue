@@ -1,16 +1,18 @@
 <template>
   <div>      
-      <!-- {{ allProducts }} -->
-      
     <b-container>
       <div>
         <div>
-          <b-button v-b-modal.modal-1>Shopping Cart</b-button>
+          <b-button v-b-modal.modal-1>Shopping Cart: {{ getCartItemsLength }}</b-button>
 
-          <b-modal id="modal-1" title="Cart">
-            <div v-for="(item, index) in typeOfProductCountInCart" :key="index">
-              {{item.product.productName}}<span>{{item.product.count}}</span>
+          <b-modal id="modal-1" size="sm" title="Cart">
+            <div v-for="(item, index) in getShoppingCart" :key="index">
+              {{item.product.productName}}: <span class="product-count"> {{item.product.count}}</span><button @click="decrementCart(item.product.productName, item.product.price)">-</button>
             </div>
+            <hr>
+            <p >Sub Total: <span class="product-totals">{{ getSubTotal }}</span> </p> 
+            <p >Tax: <span class="product-totals">{{ getTax }}</span> </p>  
+            <p >Order Total: <span class="product-totals">{{ getOrderTotal }}</span></p>  
           </b-modal>
         </div>
       </div>
@@ -21,7 +23,7 @@
             <p class="price">Price: {{ formatPrices(product.price) }}</p>
             <hr>
             <b-card-text>{{product.description}}</b-card-text>
-            <b-button @click="addProductToCart(product.productName)" variant="success" class="add-cart-btn">Add to Cart!</b-button>
+            <b-button @click="incrementCart(product._id, product.productName, product.price)" variant="success" class="add-cart-btn">Add to Cart!</b-button>
           </b-card>
           </b-card-group>
         </b-col>
@@ -41,7 +43,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchProducts', 'addProductToCart']),
+    ...mapActions(['fetchProducts', 'addProductToCart', 'removeProductFromCart']),
     formatPrices(prices) {
       // I used a try catch blocks because a bug keeps appearing when creating a new product. The err happens when a new product is added and the item has not loaded in but the function runs before the created product is loaded in. The functionality works but I stopped the err from initiating.
       try {
@@ -59,15 +61,17 @@ export default {
         return '$ ' + returnPrice //just adds a $ to the prices
       } catch(err) {}
     },
-    incrementCart(id, price, name) {
-      this.cart += price
-      this.cartArray.push(name);
-      console.log(this.cartArray)
-      console.log(`${id}, ${price}, ${name}`)
+    incrementCart(id, productName, price) {
+      let payload = {id, productName, price};
+      this.addProductToCart(payload)
+    },
+    decrementCart(productName, price) {
+      let payload = {productName, price};
+      this.removeProductFromCart(payload)
     }
   },
   computed: {
-    ...mapGetters(['allProducts']),
+    ...mapGetters(['allProducts', 'getSubTotal', 'getTax', 'getOrderTotal', 'getShoppingCart','getCartItemsLength']),
     ...mapState(['products', 'cartArray', 'typeOfProductCountInCart'])
   },
   created() {
@@ -82,6 +86,22 @@ body {
   font-family: "Franklin Gothic Medium", "Ariel Narrow", Arial, sans-serif;
   line-height: 1.6;
   background: #e8f7f0
+}
+
+.modal-content {
+  p {
+    margin: 0;
+  }
+  .product-totals {
+    position: absolute;
+    right: 35px;
+  }
+}
+
+
+.product-count {
+  position: absolute;
+  right: 100px;
 }
 
 .price {

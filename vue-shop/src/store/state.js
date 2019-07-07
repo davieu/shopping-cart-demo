@@ -4,5 +4,6 @@ export default {
   errorMsg: '',
   requestStatus: null,
   cartArray: [],
-  typeOfProductCountInCart: []
+  typeOfProductCountInCart: [],
+  totalCost: 0
 }
