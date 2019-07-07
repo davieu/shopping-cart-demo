@@ -1,5 +1,8 @@
 export default {
+  initializeState: true,
   products: [],
   errorMsg: '',
-  requestStatus: null
+  requestStatus: null,
+  cartArray: [],
+  typeOfProductCountInCart: []
 }

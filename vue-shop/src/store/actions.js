@@ -17,5 +17,8 @@ export default {
       commit('sendError', errObj.errMsg)
       console.error(errObj)
     }
+  },
+  addProductToCart({ commit }, payload) {
+    commit('pushProductToCart', payload)
   }
 }

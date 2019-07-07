@@ -9,13 +9,6 @@
         <br/>
         <input type="text" class="input-field" v-model="formData.description" required placeholder="Description...">
         <br/>
-
-          <!-- <b-button type="submit" v-b-modal.modal-1>Launch demo modal</b-button>
-
-  <b-modal id="modal-1" title="BootstrapVue" v-if="getRequestStatus == false">
-    <p class="my-4">Hello from modal!</p>
-  </b-modal> -->
-
         <b-button type="submit" value="Submit" variant="success">Submit</b-button>
         <div class="error-handler-div" :class="{'success': getRequestStatus, 'error': !getRequestStatus}">
           <span class="err-symbol" v-if="getRequestStatus"><b>&#10004;</b></span>
