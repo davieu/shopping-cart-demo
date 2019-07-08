@@ -7,7 +7,7 @@ module.exports = app => {
     const addedProduct = new Product(req.body);
     try {
       const result = await addedProduct.save();
-      res.send(result);
+      return res.send(result);
 
     } catch(err) {
       let productNameNotUnique = null;
@@ -32,10 +32,10 @@ module.exports = app => {
   app.get('/api/products', async (req, res, next) => {
     try {
       const products = await Product.find().exec();
-      res.send(products);
+      return res.send(products);
 
     } catch(err) {
-      res.status(404).send({
+      return res.status(404).send({
         msg: 'Products could not be found please try again',
         err
       })
@@ -48,19 +48,18 @@ module.exports = app => {
     try {
       const deletedProduct = await Product.findById(req.params.id).exec();
       if (deletedProduct.cannotDelete === true) {
-        res.send({msg: 'Cannot delete this item. It is protected'})
+        return res.send({msg: 'Cannot delete this item. It is protected'})
       } else {
         const result = await Product.deleteOne({ _id: req.params.id }).exec();
         // Sends the result status of the delete and the product deleted
-        res.send({
+        return res.send({
           deletedProduct,
           result
       })
       }
       
-
     } catch(err) {
-      res.status(404).send({
+      return res.status(404).send({
         msg: 'Product could not be found for deletion please try again',
         err
       })
@@ -69,15 +68,20 @@ module.exports = app => {
 
   // Update a product
   app.put('/api/product/:id', async (req, res, next) => {
-
     try {
-      const updatedProduct = await Product.findById(req.params.id);
-      updatedProduct.set(req.body);
-      const result = await updatedProduct.save();
-      res.send(result);
-      
+      const updatedProduct = await Product.findById(req.params.id)
+      // protected product. cannot delete or update
+      if (updatedProduct.cannotDelete === true) {
+        return res.send({msg: 'Cannot update this item. It is protected'})
+      } else {
+        const updatedProduct = await Product.findById(req.params.id);
+        updatedProduct.set(req.body);
+        const result = await updatedProduct.save();
+       return res.send(result);
+      }
+
     } catch(err) {
-      res.status(404).send({
+      return res.status(404).send({
         msg: 'Please try again could could not update product selected',
         err
       })

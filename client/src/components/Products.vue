@@ -53,7 +53,7 @@
       </div>
       <!-- PRODUCTS BEGIN -->
       <b-row>
-        <b-col cols="6" md="4" v-for="(product) in allProducts" :key="product._id">
+        <b-col  md="4" xs="12" v-for="(product) in allProducts" :key="product._id">
           <b-card-group deck class="mb-3">
           <b-card :header="`${product.productName}`" class="text-center cards">
             <p class="price">Price: {{ formatPrices(product.price) }}</p>
@@ -151,27 +151,19 @@ body {
 }
 
 .in-cart-del-btn {
-  // height: 20px;
-  // width: 20px;
-  // margin-bottom: 5px;
-  // padding-bottom: 1px;
-  padding-right: 10px;
+  padding-right:8px;
+  padding-left:8px;
+  position: absolute;
+  right: 70px;
   background: #faafa5
-  // position: absolute;
-  // right: 75px
 }
 
 .in-cart-add-btn {
-  // position: absolute;
   background: #41b883;
-  //  height: 20px;
-  // width: 20px;
-  // margin-bottom: 70px
-  // right: 50px
 }
 .product-count {
   position: absolute;
-  right: 100px;
+  right: 72px;
 }
 
 .price {
@@ -191,7 +183,6 @@ body {
 
 .card-header {
   background: #41b883;
-  border-radius: 10px;
   font-weight: bold;
 }
 

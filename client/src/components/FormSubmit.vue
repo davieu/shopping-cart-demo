@@ -1,5 +1,25 @@
 <template>
   <div>
+    <!-- TOGGLE PROMOTIONS -->
+    <h1>Activate Promotions</h1>
+    <div class="promotions-div">
+      {{promotions[0].promotionFunc()}}
+      <b-button v-b-toggle.collapse-1 variant="primary">Promotions List:</b-button>
+      <b-collapse id="collapse-1" class="mt-2">
+        <b-card>
+          <b-form-group id="promotions-group">
+            <p>Select the promotions you want to use.</p>
+            <b-form-checkbox-group v-for="(promotion, index) in promotions" :key="index" id="promotions-checkboxes">
+              <b-form-checkbox value="me"><b>{{promotion.productName}}</b>: {{promotion.promotion}}</b-form-checkbox>
+            </b-form-checkbox-group>
+          </b-form-group>
+        </b-card>
+      </b-collapse>
+    </div>
+    <br>
+    <hr>
+
+    <!-- POST/ADD PRODUCT -->
     <h1>Add Product</h1>
     <div class="products-list">
       <form @submit="onSubmit">
@@ -17,42 +37,17 @@
         </div>
       </form>
     </div>
+    <br>
+    <hr>
 
-  <h1>Delete Product</h1>
-    <div class="products-list">
-      <form @submit="onSubmit">
-        <input type="text" class="input-field" v-model="formData.productName" required placeholder="Product name...">
-        <br/>
-        <input type="number" step="0.01" class="input-field" v-model="formData.price" required placeholder="Price...">
-        <br/>
-        <input type="text" class="input-field" v-model="formData.description" required placeholder="Description...">
-        <br/>
-        <b-button type="submit" value="Submit" variant="success">Submit</b-button>
-        <div class="error-handler-div" :class="{'success': getRequestStatus, 'error': !getRequestStatus}">
-          <span class="err-symbol" v-if="getRequestStatus"><b>&#10004;</b></span>
-          <span class="err-symbol" v-if="getRequestStatus === false"><b> X </b></span>
-          <span> {{successOrErrorHandler}}</span>
-        </div>
-      </form>
-    </div>
-
-  <h1>Activate Promotions</h1>
-    <div class="products-list">
-      <form @submit="onSubmit">
-        <input type="text" class="input-field" v-model="formData.productName" required placeholder="Product name...">
-        <br/>
-        <input type="number" step="0.01" class="input-field" v-model="formData.price" required placeholder="Price...">
-        <br/>
-        <input type="text" class="input-field" v-model="formData.description" required placeholder="Description...">
-        <br/>
-        <b-button type="submit" value="Submit" variant="success">Submit</b-button>
-        <div class="error-handler-div" :class="{'success': getRequestStatus, 'error': !getRequestStatus}">
-          <span class="err-symbol" v-if="getRequestStatus"><b>&#10004;</b></span>
-          <span class="err-symbol" v-if="getRequestStatus === false"><b> X </b></span>
-          <span> {{successOrErrorHandler}}</span>
-        </div>
-      </form>
-    </div>
+    <!-- DELETE PRODUCTS -->
+    <h1>Delete Product</h1>
+      <div class="products-list">
+        <form>
+          <input type="text" class="input-field" v-model="formData.productName" required placeholder="Product name...">
+          <b-button type="submit" value="Submit" variant="success">Submit</b-button>
+        </form>
+      </div>
   </div>
 </template>
 
@@ -80,6 +75,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getErrorMsg', 'getRequestStatus']),
+    ...mapState(['promotions']),
     successOrErrorHandler() {
       if (this.getRequestStatus) {
         return "Product Added!"
