@@ -24,8 +24,8 @@
             <div v-for="(item, index) in getShoppingCart" :key="index" >
             {{item.product.productName}}: <span class="product-count"> {{item.product.count}}</span>
             <div class="cart-btns"> 
-            <button class="in-cart-del-btn" mb="1" @click="decrementCart(item.product.productName, item.product.price)"><b>-</b></button>
-            <button class="in-cart-add-btn" @click="incrementCart(item.product.productName, item.product.price)"><b>+</b></button>
+              <button class="in-cart-del-btn" mb="1" @click="decrementCart(item.product.productName, item.product.price)"><b>-</b></button>
+              <button class="in-cart-add-btn" @click="incrementCart(item.product.productName, item.product.price)"><b>+</b></button>
             </div>
 
             </div>
@@ -159,6 +159,8 @@ body {
 }
 
 .in-cart-add-btn {
+  padding-right:5px;
+  padding-left:5px;
   background: #41b883;
 }
 .product-count {
