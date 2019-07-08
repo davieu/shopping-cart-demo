@@ -159,8 +159,8 @@ body {
 }
 
 .in-cart-add-btn {
-  padding-right:5px;
-  padding-left:5px;
+  padding-right:8px;
+  padding-left:8px;
   background: #41b883;
 }
 .product-count {
