@@ -20,12 +20,14 @@ require('./routes/productRoutes')(app);
 //process.env.NODE_ENV === 'production' checks to see if in production. As soon as you are deployed to heroku it is set to true. The public file in this server folder is what heroku will serve when in production.
 if(process.env.NODE_ENV === 'production') {
   // Static folder
+  console.log(process.env.test)
   app.use(express.static(__dirname + '/public/'))
   // Handle SPA single page application
   //for any routes /.*/ send to built file public/index.html
-  app.get('*', (req, res) => res.sendFile(__dirname + '/public/index.html'))
+  app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
 }
 
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => console.log(`Server running at port: ${PORT}`));
+
