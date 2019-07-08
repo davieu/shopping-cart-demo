@@ -17,7 +17,7 @@ app.use(cors());
 require('./routes/productRoutes')(app);
 
 // Handle production
-//process.env.NODE_ENV === 'production' checks to see if in production. As soon as you are deployed to heroku it is set to true
+//process.env.NODE_ENV === 'production' checks to see if in production. As soon as you are deployed to heroku it is set to true. The public file in this server folder is what heroku will serve when in production.
 if(process.env.NODE_ENV === 'production') {
   // Static folder
   app.use(express.static(__dirname + '/public/'))

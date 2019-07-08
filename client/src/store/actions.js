@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+
+// Note: for heroky the path for the api no longer need localhost for dev since a vue.config was made to proxy it.
 export default {
   async fetchProducts({ commit }) {
     const response = await axios.get('api/products');
