@@ -17,7 +17,6 @@ export default {
     } catch(err) {
       const errObj = {errMsg: 'Product name already in use.', err}
       commit('sendError', errObj.errMsg)
-      console.error(errObj)
     }
   },
   addProductToCart({ commit }, payload) {
@@ -25,5 +24,8 @@ export default {
   },
   removeProductFromCart({ commit }, payload) {
     commit('removeFromCart', payload)
+  },
+  addPromotionToProduct({commit}, payload) {
+    commit('promotionActivated', payload)
   }
 }

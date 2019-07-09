@@ -6,6 +6,7 @@ export default {
   cartArray: [],
   typeOfProductCountInCart: [],
   totalCost: 0,
+  productPromotionsActivated: [],
   promotions: [
     {
       productName: 'Apple', 

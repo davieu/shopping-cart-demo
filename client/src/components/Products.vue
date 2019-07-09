@@ -11,13 +11,14 @@
             <b-button class="open-cart-btn" v-b-modal.modal-1 variant="primary">Shopping Cart: {{ getCartItemsLength }}</b-button>
           </b-col>
         </b-row>
-
-        <b-collapse id="collapse-a" class="mt-2">
-          <b-card class="special-offers-cards">Buy one, get one free on apples!</b-card>
+        <p>dsfsdf</p>
+  {{promotionalBanners}}
+        <b-collapse v-for="(promotion, index) in productPromotionsActivated" :key="index" id="collapse-a" class="mt-2">
+          <b-card class="special-offers-cards">{{promotion}}</b-card>
         </b-collapse>
-        <b-collapse id="collapse-b" class="mt-2">
+        <!-- <b-collapse id="collapse-b" class="mt-2">
           <b-card class="special-offers-cards">3 for the price of 2 on oranges!</b-card>
-        </b-collapse>
+        </b-collapse> -->
 
         <b-modal id="modal-1" size="sm" title="Cart">
           <div v-if="getCartItemsLength > 0">
@@ -108,7 +109,17 @@ export default {
   },
   computed: {
     ...mapGetters(['allProducts', 'getSubTotal', 'getTax', 'getOrderTotal', 'getShoppingCart','getCartItemsLength']),
-    ...mapState(['products', 'cartArray', 'typeOfProductCountInCart'])
+    ...mapState(['products', 'cartArray', 'typeOfProductCountInCart', 'productPromotionsActivated', 'promotions']),
+    promotionalBanners() {
+      console.log(this.promotions.length)
+      // this.promotions.filter(promotion => {
+        // for(let i = 0; i < this.promotions.length; i++) {
+        //   if (this.productPromotionsActivated[i] == this.promotions[i].productName) {
+        //     return this.promotions[i].promotion
+        //   }
+        // }
+      // })
+    }
   },
   created() {
     this.fetchProducts();
