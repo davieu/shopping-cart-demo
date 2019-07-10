@@ -1,20 +1,21 @@
 <template>
   <div>      
     <b-container>
+      <!-- <div v-for="(pro,  index) in displayPromotions" :key="index">
+        <p>{{pro.promotion}}</p>
+      </div> -->
       <!-- MODAL BEGINS -->
       <div class="modal-div">
         <b-row>
           <b-col>
-            <b-button v-b-toggle.collapse-a.collapse-b variant="primary">Special Offers!</b-button>
+            <b-button v-if="productPromotionsActivated.length > 0" v-b-toggle.collapse-a.collapse-b variant="primary">Special Offers!</b-button>
           </b-col>
           <b-col>
             <b-button class="open-cart-btn" v-b-modal.modal-1 variant="primary">Shopping Cart: {{ getCartItemsLength }}</b-button>
           </b-col>
         </b-row>
-        <p>dsfsdf</p>
-  {{promotionalBanners}}
-        <b-collapse v-for="(promotion, index) in productPromotionsActivated" :key="index" id="collapse-a" class="mt-2">
-          <b-card class="special-offers-cards">{{promotion}}</b-card>
+        <b-collapse visible v-for="(promotion, index) in displayPromotionsActivated" :key="index" id="collapse-a" class="mt-2">
+          <b-card class="special-offers-cards"><b>{{promotion.productName}}:</b> {{promotion.promotion}}!</b-card>
         </b-collapse>
         <!-- <b-collapse id="collapse-b" class="mt-2">
           <b-card class="special-offers-cards">3 for the price of 2 on oranges!</b-card>
@@ -53,11 +54,12 @@
         </b-modal>
       </div>
       <!-- PRODUCTS BEGIN -->
-      <b-row>
+      <b-row :class="{noPromotions: productPromotionsActivated.length < 1 }">
         <b-col  md="4" xs="12" v-for="(product) in allProducts" :key="product._id">
           <b-card-group deck class="mb-3">
           <b-card :header="`${product.productName}`" class="text-center cards">
-            <p class="price">Price: {{ formatPrices(product.price) }}</p>
+            <span title="Promotion Available!" v-if="promotionIconOnCard(product.productName)">&#9889; </span>
+            <span class="price">Price: {{ formatPrices(product.price) }} </span>
             <hr>
             <b-card-text>{{product.description}}</b-card-text>
             <b-button @click="incrementCart(product.productName, product.price, product._id)" variant="success" class="add-cart-btn">Add to Cart!</b-button>
@@ -95,7 +97,7 @@ export default {
         } else {
           returnPrice = pricesToString // for prices that are already correctly formatted
         }
-        return '$ ' + returnPrice //just adds a $ to the prices
+        return '$' + returnPrice //just adds a $ to the prices
       } catch(err) {}
     },
     incrementCart(productName, price, id) {
@@ -105,21 +107,19 @@ export default {
     decrementCart(productName, price) {
       let payload = {productName, price};
       this.removeProductFromCart(payload)
+    },
+    promotionIconOnCard(name) {
+      for (let i = 0; i < this.productPromotionsActivated.length; i++) {
+        if (name == this.productPromotionsActivated[i]) {
+          return true
+        }
+      }
     }
   },
   computed: {
-    ...mapGetters(['allProducts', 'getSubTotal', 'getTax', 'getOrderTotal', 'getShoppingCart','getCartItemsLength']),
-    ...mapState(['products', 'cartArray', 'typeOfProductCountInCart', 'productPromotionsActivated', 'promotions']),
-    promotionalBanners() {
-      console.log(this.promotions.length)
-      // this.promotions.filter(promotion => {
-        // for(let i = 0; i < this.promotions.length; i++) {
-        //   if (this.productPromotionsActivated[i] == this.promotions[i].productName) {
-        //     return this.promotions[i].promotion
-        //   }
-        // }
-      // })
-    }
+    ...mapGetters(['allProducts', 'getSubTotal', 'getTax', 'getOrderTotal', 'getShoppingCart','getCartItemsLength',
+    'displayPromotionsActivated']),
+    ...mapState(['products', 'cartArray', 'typeOfProductCountInCart', 'productPromotionsActivated', 'promotions'])
   },
   created() {
     this.fetchProducts();
@@ -181,6 +181,10 @@ body {
 
 .price {
   text-align: right;
+}
+
+.noPromotions {
+  margin-top: 65px;
 }
 
 .card {
