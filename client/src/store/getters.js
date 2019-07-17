@@ -34,5 +34,9 @@ export default {
       return formattedTotal
     }
   },
-  displayPromotionsActivated: (state) => state.promotions.filter(prom => prom.isActivated == true)
+  displayPromotionsActivated: (state) => state.promotions.filter(prom => prom.isActivated == true),
+  promotionDeductions: (state) => {
+
+    return state.typeOfProductCountInCart[0]
+  }
 }

@@ -5,6 +5,7 @@
         <p>{{pro.promotion}}</p>
       </div> -->
       <!-- MODAL BEGINS -->
+      {{promotionDeductions}}
       <div class="modal-div">
         <b-row>
           <b-col>
@@ -109,6 +110,7 @@ export default {
       this.removeProductFromCart(payload)
     },
     promotionIconOnCard(name) {
+      // If the product has a promotion then it will return true so that it can help display an icon for prmotions
       for (let i = 0; i < this.productPromotionsActivated.length; i++) {
         if (name == this.productPromotionsActivated[i]) {
           return true
@@ -118,7 +120,7 @@ export default {
   },
   computed: {
     ...mapGetters(['allProducts', 'getSubTotal', 'getTax', 'getOrderTotal', 'getShoppingCart','getCartItemsLength',
-    'displayPromotionsActivated']),
+    'displayPromotionsActivated', 'promotionDeductions']),
     ...mapState(['products', 'cartArray', 'typeOfProductCountInCart', 'productPromotionsActivated', 'promotions'])
   },
   created() {
