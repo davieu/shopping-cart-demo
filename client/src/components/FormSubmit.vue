@@ -3,16 +3,29 @@
     <!-- TOGGLE PROMOTIONS -->
     <h1>Activate Promotions</h1>
     <div class="promotions-div">
-      {{promotions[0].promotionFunc()}}
+      <!-- {{promotions[0].promotionFunc()}} -->
       <b-button v-b-toggle.collapse-1 variant="primary">Promotions List:</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
           <b-form @submit="onPromotionsSubmit">
             <b-form-group id="promotions-group">
-              <p>Select the promotions you want cusomers to use</p>
-              <b-form-checkbox-group v-model="promotionSubmitData" v-for="(promotion, index) in promotions" :key="index" id="promotions-checkboxes">
-                <b-form-checkbox checked :value="promotion.productName"><b>{{promotion.productName}}</b>: {{promotion.promotion}}</b-form-checkbox>
+              <p>Select the promotions you want customers to use. Only one per product.</p>
+              <p><b>All</b></p>
+                <b-form-checkbox checked value="All-b1g1f"><b>Buy one get one Free</b>
+                </b-form-checkbox>
+                <b-form-checkbox checked value="All-2f3"><b>2 for 3!</b>
+                </b-form-checkbox>
+              <hr>
+              <b-form-checkbox-group id="promotions-checkboxes" v-for="(product, index) in allProducts" :key="index">
+                <p checked :value="product.productName"><b>{{product.productName}} </b></p>
+                  <b-form-checkbox checked :value="product.productName + '-b1g1f'"><b>Buy one get one Free!</b>
+                  </b-form-checkbox>
+                  <b-form-checkbox checked :value="product.productName + '-2f3'"><b>2 for 3!</b>
+                  </b-form-checkbox>
+                  <hr>
               </b-form-checkbox-group>
+
+              
               <b-button class="promotions-submit-btn" type="submit" variant="success">Submit</b-button>
             </b-form-group>
           </b-form>
@@ -68,23 +81,33 @@ export default {
       promotionSubmitData: []
     }
   },
+  created() {
+    this.fetchProducts();
+  },
   methods: {
-    ...mapActions(['addProduct', 'addPromotionToProduct']),
+    ...mapActions(['fetchProducts','addProduct', 'addPromotionToProduct']),
     
+    // onPostSubmit(e) {
+    //   e.preventDefault();
+    //   const payload = this.formData
+    //   this.addProduct(payload)
+    // },
+    // onPromotionsSubmit(e) {
+    //   e.preventDefault();
+    //   const payload = this.promotionSubmitData
+    //   this.addPromotionToProduct(payload)
+    // },
     onPostSubmit(e) {
       e.preventDefault();
-      const payload = this.formData
-      this.addProduct(payload)
+
     },
     onPromotionsSubmit(e) {
       e.preventDefault();
-      const payload = this.promotionSubmitData
-      this.addPromotionToProduct(payload)
     }
   },
   computed: {
-    ...mapGetters(['getErrorMsg', 'getRequestStatus']),
-    ...mapState(['promotions', 'productPromotionsActivated']),
+    ...mapGetters(['allProducts','getErrorMsg', 'getRequestStatus']),
+    ...mapState(['products','promotions', 'productPromotionsActivated']),
     successOrErrorHandler() {
       if (this.getRequestStatus) {
         return "Product Added!"

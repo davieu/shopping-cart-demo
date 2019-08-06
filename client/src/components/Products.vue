@@ -5,18 +5,18 @@
         <p>{{pro.promotion}}</p>
       </div> -->
       <!-- MODAL BEGINS -->
-      {{promotionDeductions}}
+      <!-- {{promotionDeductions}} -->
       <div class="modal-div">
         <b-row>
           <b-col>
-            <b-button v-if="productPromotionsActivated.length > 0" v-b-toggle.collapse-a.collapse-b variant="primary">Special Offers!</b-button>
+            <b-button v-b-toggle.collapse-a.collapse-b variant="primary">Special Offers!</b-button>
           </b-col>
           <b-col>
             <b-button class="open-cart-btn" v-b-modal.modal-1 variant="primary">Shopping Cart: {{ getCartItemsLength }}</b-button>
           </b-col>
         </b-row>
-        <b-collapse visible v-for="(promotion, index) in displayPromotionsActivated" :key="index" id="collapse-a" class="mt-2">
-          <b-card class="special-offers-cards"><b>{{promotion.productName}}:</b> {{promotion.promotion}}!</b-card>
+        <b-collapse visible id="collapse-a" class="mt-2">
+          <b-card class="special-offers-cards"><b></b> !</b-card>
         </b-collapse>
         <!-- <b-collapse id="collapse-b" class="mt-2">
           <b-card class="special-offers-cards">3 for the price of 2 on oranges!</b-card>
@@ -55,11 +55,10 @@
         </b-modal>
       </div>
       <!-- PRODUCTS BEGIN -->
-      <b-row :class="{noPromotions: productPromotionsActivated.length < 1 }">
+      <b-row>
         <b-col  md="4" xs="12" v-for="(product) in allProducts" :key="product._id">
           <b-card-group deck class="mb-3">
           <b-card :header="`${product.productName}`" class="text-center cards">
-            <span title="Promotion Available!" v-if="promotionIconOnCard(product.productName)">&#9889; </span>
             <span class="price">Price: {{ formatPrices(product.price) }} </span>
             <hr>
             <b-card-text>{{product.description}}</b-card-text>
@@ -109,6 +108,14 @@ export default {
       let payload = {productName, price};
       this.removeProductFromCart(payload)
     },
+    // promotionIconOnCard(name) {
+    //   // If the product has a promotion then it will return true so that it can help display an icon for prmotions
+    //   for (let i = 0; i < this.productPromotionsActivated.length; i++) {
+    //     if (name == this.productPromotionsActivated[i]) {
+    //       return true
+    //     }
+    //   }
+    // },
     promotionIconOnCard(name) {
       // If the product has a promotion then it will return true so that it can help display an icon for prmotions
       for (let i = 0; i < this.productPromotionsActivated.length; i++) {

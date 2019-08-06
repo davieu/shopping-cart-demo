@@ -34,9 +34,10 @@ export default {
       return formattedTotal
     }
   },
-  displayPromotionsActivated: (state) => state.promotions.filter(prom => prom.isActivated == true),
-  promotionDeductions: (state) => {
+  // displayPromotionsActivated: (state) => state.promotions.filter(prom => prom.isActivated == true),
+  // promotionDeductions: (state) => {
 
-    return state.typeOfProductCountInCart[0]
-  }
+  //   return state.typeOfProductCountInCart[0]
+  // },
+  displayPromotionsActivated: (state) => state
 }
