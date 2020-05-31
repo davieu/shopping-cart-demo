@@ -86,24 +86,26 @@ export default {
       state.typeOfProductCountInCart[indexOfProductName].product.inCart = false;
     }
     state.totalCost -= removedFromCart.price;
-  }
+  },
 
-  // promotionActivated: (state, promotions) => {
-  //   // When someone submits the promotions they want to activate the state.productPromotionsActivated
-  //   // is reset then the new array is pushed
-  //   state.productPromotionsActivated = []
-  //   state.promotions.forEach(promotion => promotion.isActivated = false)
-  //   // changing state based on the promotions activated
-  //   promotions.forEach(promotion => state.productPromotionsActivated.push(promotion))
-  //   state.promotions.forEach(promotion => {
-  //     for (let i = 0; i < state.promotions.length; i++) {
-  //       if (promotion.productName == promotions[i]) {
-  //         promotion.isActivated = true;
-  //       }
-  //     }
-  //     console.log(promotion.isActivated)
-  //   })
-  //   console.log(state.promotions)
-  //   console.log(state.productPromotionsActivated)
-  // }
+  promotionActivated: (state, promotions) => {
+    // When someone submits the promotions they want to activate the state.productPromotionsActivated
+    // is reset then the new array is pushed
+    state.productPromotionsActivated = [];
+    state.promotions.forEach(promotion => (promotion.isActivated = false));
+    // changing state based on the promotions activated
+    promotions.forEach(promotion =>
+      state.productPromotionsActivated.push(promotion)
+    );
+    state.promotions.forEach(promotion => {
+      for (let i = 0; i < state.promotions.length; i++) {
+        if (promotion.productName == promotions[i]) {
+          promotion.isActivated = true;
+        }
+      }
+      console.log(promotion.isActivated);
+    });
+    console.log(state.promotions);
+    console.log(state.productPromotionsActivated);
+  }
 };

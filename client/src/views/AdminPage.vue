@@ -1,17 +1,15 @@
 <template>
   <div class="adminPage">
-    <FormSubmit/>
+    <FormSubmit />
   </div>
 </template>
 
 <script>
-import FormSubmit from '@/components/FormSubmit.vue'
-
+import FormSubmit from "@/components/FormSubmit.vue";
 export default {
-  name: 'adminPage',
+  name: "adminPage",
   components: {
     FormSubmit
   }
-}
+};
 </script>
-

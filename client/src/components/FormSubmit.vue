@@ -3,7 +3,7 @@
     <!-- TOGGLE PROMOTIONS -->
     <h1>Activate Promotions</h1>
     <div class="promotions-div">
-      <!-- {{promotions[0].promotionFunc()}} -->
+      {{promotions[0].promotionFunc()}}
       <b-button v-b-toggle.collapse-1 variant="primary">Promotions List:</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
@@ -78,11 +78,11 @@
     <hr />
 
     <!-- DELETE PRODUCTS -->
-    <h1>Delete Product</h1>
+    <h1>Delete Product (Disabled)</h1>
     <div class="products-list">
       <form>
-        <input type="text" class="input-field" required placeholder="Product name..." />
-        <b-button type="submit" value="Submit" variant="success">Submit</b-button>
+        <input disabled type="text" class="input-field" required placeholder="Product name..." />
+        <b-button disabled type="submit" value="Submit" variant="success">Submit</b-button>
       </form>
     </div>
   </div>
@@ -139,18 +139,15 @@ export default {
 .error-handler-div {
   margin-top: 15px;
 }
-
 .promotions-submit-btn {
   margin-top: 15px;
 }
-
 .success {
   text-align: center;
   font-size: 20px;
   background: #41b883;
   border-radius: 5px;
 }
-
 .err-symbol {
   font-weight: bold;
   color: red;
@@ -161,7 +158,6 @@ export default {
   background: #faafa5;
   border-radius: 5px;
 }
-
 .input-field {
   justify-content: center;
   width: 100%;
@@ -171,5 +167,3 @@ export default {
   outline: 0;
 }
 </style>
-    
-    

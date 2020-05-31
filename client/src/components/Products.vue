@@ -1,11 +1,8 @@
 <template>
   <div>
     <b-container>
-      <!-- <div v-for="(pro,  index) in displayPromotions" :key="index">
-        <p>{{pro.promotion}}</p>
-      </div>-->
+      <div v-for="(pro,  index) in displayPromotionsActivated" :key="index"></div>
       <!-- MODAL BEGINS -->
-      {{promotionDeductions}}
       <div class="modal-div">
         <b-row>
           <b-col>
@@ -191,7 +188,6 @@ body {
   line-height: 1.6;
   background: #e8f7f0;
 }
-
 .modal-content {
   p {
     margin: 0;
@@ -201,22 +197,18 @@ body {
     right: 35px;
   }
 }
-
 .open-cart-btn {
   position: absolute;
   right: 7%;
 }
-
 .modal-div {
   margin-bottom: 20px;
 }
-
 .cart-btns {
   display: inline;
   position: absolute;
   right: 35px;
 }
-
 .in-cart-del-btn {
   padding-right: 8px;
   padding-left: 8px;
@@ -224,7 +216,6 @@ body {
   right: 70px;
   background: #faafa5;
 }
-
 .in-cart-add-btn {
   padding-right: 8px;
   padding-left: 8px;
@@ -234,36 +225,29 @@ body {
   position: absolute;
   right: 72px;
 }
-
 .price {
   text-align: right;
 }
-
 .noPromotions {
   margin-top: 65px;
 }
-
 .card {
   border: 2px solid #41b883;
   border-radius: 8px;
   height: 275px;
 }
-
 .special-offers-cards {
   height: auto;
 }
-
 .card-header {
   background: #41b883;
   font-weight: bold;
 }
-
 .add-cart-btn {
   right: 20px;
   bottom: 15px;
   position: absolute;
 }
-
 h3 {
   margin: 40px 0 0;
 }
