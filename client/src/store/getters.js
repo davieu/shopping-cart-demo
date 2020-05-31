@@ -4,9 +4,6 @@ export default {
   allProducts: (state) => state.products,
   getErrorMsg: (state) => state.errorMsg,
   getRequestStatus: (state) => state.requestStatus,
-  getTotalCheckout: (state) => {
-    state.cartArray.forEach()
-  },
   getShoppingCart: (state) => state.typeOfProductCountInCart.filter(prod => prod.product.inCart == true),
   getCartItemsLength: (state) => state.cartArray.length,
   getSubTotal: (state) => {
@@ -36,5 +33,6 @@ export default {
     } else {
       return formattedTotal
     }
-  }
+  },
+  displayPromotionsActivated: (state) => state.promotions.filter(prom => prom.isActivated == true)
 }
