@@ -1,69 +1,109 @@
 <template>
-  <div>      
+  <div>
     <b-container>
       <!-- <div v-for="(pro,  index) in displayPromotions" :key="index">
         <p>{{pro.promotion}}</p>
-      </div> -->
+      </div>-->
       <!-- MODAL BEGINS -->
+      {{promotionDeductions}}
       <div class="modal-div">
         <b-row>
           <b-col>
-            <b-button v-if="productPromotionsActivated.length > 0" v-b-toggle.collapse-a.collapse-b variant="primary">Special Offers!</b-button>
+            <b-button
+              v-if="productPromotionsActivated.length > 0"
+              v-b-toggle.collapse-a.collapse-b
+              variant="primary"
+            >Special Offers!</b-button>
           </b-col>
           <b-col>
-            <b-button class="open-cart-btn" v-b-modal.modal-1 variant="primary">Shopping Cart: {{ getCartItemsLength }}</b-button>
+            <b-button
+              class="open-cart-btn"
+              v-b-modal.modal-1
+              variant="primary"
+            >Shopping Cart: {{ getCartItemsLength }}</b-button>
           </b-col>
         </b-row>
-        <b-collapse visible v-for="(promotion, index) in displayPromotionsActivated" :key="index" id="collapse-a" class="mt-2">
-          <b-card class="special-offers-cards"><b>{{promotion.productName}}:</b> {{promotion.promotion}}!</b-card>
+        <b-collapse
+          visible
+          v-for="(promotion, index) in displayPromotionsActivated"
+          :key="index"
+          id="collapse-a"
+          class="mt-2"
+        >
+          <b-card class="special-offers-cards">
+            <b>{{promotion.productName}}:</b>
+            {{promotion.promotion}}!
+          </b-card>
         </b-collapse>
         <!-- <b-collapse id="collapse-b" class="mt-2">
           <b-card class="special-offers-cards">3 for the price of 2 on oranges!</b-card>
-        </b-collapse> -->
+        </b-collapse>-->
 
         <b-modal id="modal-1" size="sm" title="Cart">
           <div v-if="getCartItemsLength > 0">
-            <div v-for="(item, index) in getShoppingCart" :key="index" >
-            {{item.product.productName}}: <span class="product-count"> {{item.product.count}}</span>
-            <div class="cart-btns"> 
-              <button class="in-cart-del-btn" mb="1" @click="decrementCart(item.product.productName, item.product.price)"><b>-</b></button>
-              <button class="in-cart-add-btn" @click="incrementCart(item.product.productName, item.product.price)"><b>+</b></button>
-            </div>
-
+            <div v-for="(item, index) in getShoppingCart" :key="index">
+              {{item.product.productName}}:
+              <span class="product-count">{{item.product.count}}</span>
+              <div class="cart-btns">
+                <button
+                  class="in-cart-del-btn"
+                  mb="1"
+                  @click="decrementCart(item.product.productName, item.product.price)"
+                >
+                  <b>-</b>
+                </button>
+                <button
+                  class="in-cart-add-btn"
+                  @click="incrementCart(item.product.productName, item.product.price)"
+                >
+                  <b>+</b>
+                </button>
+              </div>
             </div>
           </div>
           <div v-if="getCartItemsLength < 1">
             <p>Take a look around the Shop!</p>
           </div>
-          
-          <hr>
-          <p>Sub Total: <span class="product-totals">{{ getSubTotal }}</span> </p> 
-          <p>Tax: <span class="product-totals">{{ getTax }}</span> </p>  
-          <p><b>Order Total:</b> <span class="product-totals"><b>{{ getOrderTotal }}</b></span></p>  
-                <div slot="modal-footer" class="w-100">
-        <p class="float-left"></p>
-        <b-button
-          variant="primary"
-          class="float-right"
-          @checkout="show=false"
-        >
-          Checkout
-        </b-button>
-  
-      </div>
+
+          <hr />
+          <p>
+            Sub Total:
+            <span class="product-totals">{{ getSubTotal }}</span>
+          </p>
+          <p>
+            Tax:
+            <span class="product-totals">{{ getTax }}</span>
+          </p>
+          <p>
+            <b>Order Total:</b>
+            <span class="product-totals">
+              <b>{{ getOrderTotal }}</b>
+            </span>
+          </p>
+          <div slot="modal-footer" class="w-100">
+            <p class="float-left"></p>
+            <b-button variant="primary" class="float-right" @checkout="show=false">Checkout</b-button>
+          </div>
         </b-modal>
       </div>
       <!-- PRODUCTS BEGIN -->
       <b-row :class="{noPromotions: productPromotionsActivated.length < 1 }">
-        <b-col  md="4" xs="12" v-for="(product) in allProducts" :key="product._id">
+        <b-col md="4" xs="12" v-for="(product) in allProducts" :key="product._id">
           <b-card-group deck class="mb-3">
-          <b-card :header="`${product.productName}`" class="text-center cards">
-            <span title="Promotion Available!" v-if="promotionIconOnCard(product.productName)">&#9889; </span>
-            <span class="price">Price: {{ formatPrices(product.price) }} </span>
-            <hr>
-            <b-card-text>{{product.description}}</b-card-text>
-            <b-button @click="incrementCart(product.productName, product.price, product._id)" variant="success" class="add-cart-btn">Add to Cart!</b-button>
-          </b-card>
+            <b-card :header="`${product.productName}`" class="text-center cards">
+              <span
+                title="Promotion Available!"
+                v-if="promotionIconOnCard(product.productName)"
+              >&#9889;</span>
+              <span class="price">Price: {{ formatPrices(product.price) }}</span>
+              <hr />
+              <b-card-text>{{product.description}}</b-card-text>
+              <b-button
+                @click="incrementCart(product.productName, product.price, product._id)"
+                variant="success"
+                class="add-cart-btn"
+              >Add to Cart!</b-button>
+            </b-card>
           </b-card-group>
         </b-col>
       </b-row>
@@ -72,59 +112,76 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState} from 'vuex';
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
-  name: 'Products',
+  name: "Products",
   data() {
     return {
       cart: null,
       cartArrays: []
-    }
+    };
   },
   methods: {
-    ...mapActions(['fetchProducts', 'addProductToCart', 'removeProductFromCart']),
+    ...mapActions([
+      "fetchProducts",
+      "addProductToCart",
+      "removeProductFromCart"
+    ]),
     formatPrices(prices) {
       // I used a try catch blocks because a bug keeps appearing when creating a new product. The err happens when a new product is added and the item has not loaded in but the function runs before the created product is loaded in. The functionality works but I stopped the err from initiating.
       try {
         // this formats the pricings and depending on where the decimal is. I converted number to string.
-        let pricesToString = prices.toString()
-        let returnPrice
-        let indexOfDecimal = pricesToString.indexOf('.');
+        let pricesToString = prices.toString();
+        let returnPrice;
+        let indexOfDecimal = pricesToString.indexOf(".");
         if (indexOfDecimal == -1) {
-          returnPrice = pricesToString + '.00' //1 >>> 1.00
-        } else if (pricesToString[pricesToString.length - 2] == '.') {
-          returnPrice = pricesToString + '0' //1.1 >>> 1.10
+          returnPrice = pricesToString + ".00"; //1 >>> 1.00
+        } else if (pricesToString[pricesToString.length - 2] == ".") {
+          returnPrice = pricesToString + "0"; //1.1 >>> 1.10
         } else {
-          returnPrice = pricesToString // for prices that are already correctly formatted
+          returnPrice = pricesToString; // for prices that are already correctly formatted
         }
-        return '$' + returnPrice //just adds a $ to the prices
-      } catch(err) {}
+        return "$" + returnPrice; //just adds a $ to the prices
+      } catch (err) {}
     },
     incrementCart(productName, price, id) {
-      let payload = {productName, price, id};
-      this.addProductToCart(payload)
+      let payload = { productName, price, id };
+      this.addProductToCart(payload);
     },
     decrementCart(productName, price) {
-      let payload = {productName, price};
-      this.removeProductFromCart(payload)
+      let payload = { productName, price };
+      this.removeProductFromCart(payload);
     },
     promotionIconOnCard(name) {
       for (let i = 0; i < this.productPromotionsActivated.length; i++) {
         if (name == this.productPromotionsActivated[i]) {
-          return true
+          return true;
         }
       }
     }
   },
   computed: {
-    ...mapGetters(['allProducts', 'getSubTotal', 'getTax', 'getOrderTotal', 'getShoppingCart','getCartItemsLength',
-    'displayPromotionsActivated']),
-    ...mapState(['products', 'cartArray', 'typeOfProductCountInCart', 'productPromotionsActivated', 'promotions'])
+    ...mapGetters([
+      "allProducts",
+      "getSubTotal",
+      "getTax",
+      "getOrderTotal",
+      "getShoppingCart",
+      "getCartItemsLength",
+      "displayPromotionsActivated"
+    ]),
+    ...mapState([
+      "products",
+      "cartArray",
+      "typeOfProductCountInCart",
+      "productPromotionsActivated",
+      "promotions"
+    ])
   },
   created() {
     this.fetchProducts();
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -132,9 +189,8 @@ export default {
 body {
   font-family: "Franklin Gothic Medium", "Ariel Narrow", Arial, sans-serif;
   line-height: 1.6;
-  background: #e8f7f0
+  background: #e8f7f0;
 }
-
 
 .modal-content {
   p {
@@ -162,16 +218,16 @@ body {
 }
 
 .in-cart-del-btn {
-  padding-right:8px;
-  padding-left:8px;
+  padding-right: 8px;
+  padding-left: 8px;
   position: absolute;
   right: 70px;
-  background: #faafa5
+  background: #faafa5;
 }
 
 .in-cart-add-btn {
-  padding-right:8px;
-  padding-left:8px;
+  padding-right: 8px;
+  padding-left: 8px;
   background: #41b883;
 }
 .product-count {
@@ -197,14 +253,13 @@ body {
   height: auto;
 }
 
-
 .card-header {
   background: #41b883;
   font-weight: bold;
 }
 
 .add-cart-btn {
-  right:20px;
+  right: 20px;
   bottom: 15px;
   position: absolute;
 }
