@@ -17,6 +17,21 @@ export default {
       commit("sendError", errObj.errMsg);
     }
   },
+
+  async deleteProduct({ commit }, payload) {
+    // commit("deleteProductState", payload);
+    console.log(payload);
+    // console.log(state.products);
+    // try {
+    //   const product = payload;
+    //   const response = await axios.delete(`api/product/${payload}`, payload);
+    //   console.log(payload);
+    //   commit("deleteProductState", response.data);
+    // } catch (err) {
+    //   const errObj = { errMsg: "Product not found for deletion.", err };
+    //   commit("sendError", errObj.errMsg);
+    // }
+  },
   addProductToCart({ commit }, payload) {
     commit("pushProductToCart", payload);
   },

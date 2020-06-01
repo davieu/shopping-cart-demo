@@ -17,7 +17,8 @@ export default {
             productName: products[i].productName,
             count: 0,
             inCart: false,
-            price: products[i].price
+            price: products[i].price,
+            productID: products[i]._id
           }
         });
       }
@@ -29,6 +30,7 @@ export default {
   },
 
   newProduct: (state, addedProduct) => {
+    console.log("mutNewProd", addedProduct);
     // timeout for the success msg. only lasts for 1.5s
     setTimeout(() => (state.requestStatus = null), 1500);
     // This uppercase var was needed because the object productName sent was lowercase and I needed the first letter uppercase to store in the state
@@ -41,13 +43,19 @@ export default {
         productName: uppercaseName,
         count: 0,
         inCart: false,
-        price: addedProduct.price
+        price: addedProduct.price,
+        productID: addedProduct._id
       }
     });
     // flag for knowing if request is good or bad.
     state.requestStatus = true;
     state.errorMsg = "";
     state.products.push(addedProduct);
+  },
+
+  deleteProductState: (state, deletedProduct) => {
+    console.log("mutationDelete", deletedProduct);
+    console.log(state.typeOfProductCountInCart);
   },
 
   sendError: (state, errMsg) => {

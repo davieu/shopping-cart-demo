@@ -80,9 +80,15 @@
     <!-- DELETE PRODUCTS -->
     <h1>Delete Product (Disabled)</h1>
     <div class="products-list">
-      <form>
-        <input disabled type="text" class="input-field" required placeholder="Product name..." />
-        <b-button disabled type="submit" value="Submit" variant="success">Submit</b-button>
+      <form @submit="OnDeleteSubmit">
+        <input
+          type="text"
+          class="input-field"
+          v-model="willDelete"
+          required
+          placeholder="Product name..."
+        />
+        <b-button type="submit" value="Submit" variant="success">Submit</b-button>
       </form>
     </div>
   </div>
@@ -99,14 +105,23 @@ export default {
         price: "",
         description: ""
       },
-      promotionSubmitData: []
+      promotionSubmitData: [],
+      willDelete: ""
     };
   },
   methods: {
-    ...mapActions(["addProduct", "addPromotionToProduct"]),
+    ...mapActions([
+      "addProduct",
+      "addPromotionToProduct",
+      "deleteProduct",
+      "fetchProducts"
+    ]),
 
     onPostSubmit(e) {
       e.preventDefault();
+      // trim excess white space
+      this.formData.productName = this.formData.productName.trim();
+      this.formData.description = this.formData.description.trim();
       const payload = this.formData;
       this.addProduct(payload);
     },
@@ -114,10 +129,48 @@ export default {
       e.preventDefault();
       const payload = this.promotionSubmitData;
       this.addPromotionToProduct(payload);
+    },
+    OnDeleteSubmit(e) {
+      e.preventDefault();
+      // const productTest = this.allProducts.forEach(test => {
+      //   if (test.productName.toLowerCase() === this.willDelete.toLowerCase())
+      //     console.log("yooo");
+
+      //   // console.log(this.willDelete);
+      //   // console.log(product.productName);
+      // });
+      // // console.log(productTest);
+
+      // console.log(this.willDelete);
+      // for (let products in this.allProducts) {
+
+      //   }
+      // }
+      // let findProductID = this.allProducts.find(
+      //   products =>
+      //     products.productName.toLowerCase() === this.willDelete.toLowerCase()
+      // );
+      // console.log(findProductID);
+      // this.allProducts.forEach(products => {
+      //   if (products.)
+      //   console.log(products.productName.toLowerCase());
+      // });
+      // const productID = this.allProducts.findIndex(
+      //   product => product.productName === this.willDelete
+      // );
+      // console.log(productID);
+      // console.log(this.willDelete.toLowerCase());
+      // for (let i = 0; i < this.allProducts.length; i++) {
+      //   if (this.allProducts)
+      //   // console.log(this.allProducts[i]);
+      // }
+      console.log(this.willDelete);
+      const payload = this.willDelete;
+      this.deleteProduct(payload);
     }
   },
   computed: {
-    ...mapGetters(["getErrorMsg", "getRequestStatus"]),
+    ...mapGetters(["getErrorMsg", "getRequestStatus", "allProducts"]),
     ...mapState(["promotions", "productPromotionsActivated"]),
     successOrErrorHandler() {
       if (this.getRequestStatus) {
@@ -131,6 +184,7 @@ export default {
   },
   mounted() {
     this.promotionSubmitData = this.productPromotionsActivated;
+    this.fetchProducts();
   }
 };
 </script>
