@@ -132,6 +132,24 @@ export default {
     },
     OnDeleteSubmit(e) {
       e.preventDefault();
+      // This is filtering through the products state with the allProducts getter
+      // return that specific product object so I can get the product ID to send to the /api/delete/:id route
+      // if () {
+
+      // }
+      let indexOf = this.allProducts.indexOf(products => {
+        // products.productName === this.willDelete;
+        console.log(products.productName);
+      });
+      // let prodID = this.allProducts.filter(products => {
+      //   return (
+      //     products.productName.toLowerCase() === this.willDelete.toLowerCase()
+      //   );
+      // });
+      console.log(indexOf);
+
+      // console.log("delButt", prodID);
+
       // const productTest = this.allProducts.forEach(test => {
       //   if (test.productName.toLowerCase() === this.willDelete.toLowerCase())
       //     console.log("yooo");
