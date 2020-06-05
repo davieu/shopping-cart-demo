@@ -9,28 +9,35 @@ export default {
   },
 
   async addProduct({ commit }, payload) {
+    console.log(payload);
     try {
       const response = await axios.post("api/product", payload);
       commit("newProduct", response.data);
     } catch (err) {
       const errObj = { errMsg: "Product name already in use.", err };
+      console.log("error hit");
       commit("sendError", errObj.errMsg);
     }
   },
 
   async deleteProduct({ commit }, payload) {
-    // commit("deleteProductState", payload);
-    console.log(payload);
-    // console.log(state.products);
-    // try {
-    //   const product = payload;
-    //   const response = await axios.delete(`api/product/${payload}`, payload);
-    //   console.log(payload);
-    //   commit("deleteProductState", response.data);
-    // } catch (err) {
-    //   const errObj = { errMsg: "Product not found for deletion.", err };
-    //   commit("sendError", errObj.errMsg);
+    // if (payload) {
+
     // }
+    console.log("actionPayload", payload);
+    // payload = object
+    // payload._id sending only the id
+    try {
+      const response = await axios.delete(
+        `api/product/${payload._id}`,
+        payload
+      );
+      commit("deleteProductState", payload);
+    } catch (err) {
+      console.log("ERRRORRORORO");
+      const errObj = { errMsg: "Product not found for deletion.", err };
+      commit("sendError", errObj.errMsg);
+    }
   },
   addProductToCart({ commit }, payload) {
     commit("pushProductToCart", payload);

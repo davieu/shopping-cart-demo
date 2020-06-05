@@ -3,8 +3,10 @@
     <!-- TOGGLE PROMOTIONS -->
     <h1>Activate Promotions</h1>
     <div class="promotions-div">
-      {{promotions[0].promotionFunc()}}
-      <b-button v-b-toggle.collapse-1 variant="primary">Promotions List:</b-button>
+      {{ promotions[0].promotionFunc() }}
+      <b-button v-b-toggle.collapse-1 variant="primary"
+        >Promotions List:</b-button
+      >
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
           <b-form @submit="onPromotionsSubmit">
@@ -17,11 +19,16 @@
                 id="promotions-checkboxes"
               >
                 <b-form-checkbox checked :value="promotion.productName">
-                  <b>{{promotion.productName}}</b>
-                  : {{promotion.promotion}}
+                  <b>{{ promotion.productName }}</b>
+                  : {{ promotion.promotion }}
                 </b-form-checkbox>
               </b-form-checkbox-group>
-              <b-button class="promotions-submit-btn" type="submit" variant="success">Submit</b-button>
+              <b-button
+                class="promotions-submit-btn"
+                type="submit"
+                variant="success"
+                >Submit</b-button
+              >
             </b-form-group>
           </b-form>
         </b-card>
@@ -59,18 +66,20 @@
           placeholder="Description..."
         />
         <br />
-        <b-button type="submit" value="Submit" variant="success">Submit</b-button>
+        <b-button type="submit" value="Submit" variant="success"
+          >Submit</b-button
+        >
         <div
           class="error-handler-div"
-          :class="{'success': getRequestStatus, 'error': !getRequestStatus}"
+          :class="{ success: getRequestStatus, error: !getRequestStatus }"
         >
           <span class="err-symbol" v-if="getRequestStatus">
             <b>&#10004;</b>
           </span>
           <span class="err-symbol" v-if="getRequestStatus === false">
-            <b>X</b>
+            <b>X </b>
           </span>
-          <span>{{successOrErrorHandler}}</span>
+          <span>{{ successOrErrorHandlerForAddProd }}</span>
         </div>
       </b-form>
     </div>
@@ -88,7 +97,21 @@
           required
           placeholder="Product name..."
         />
-        <b-button type="submit" value="Submit" variant="success">Submit</b-button>
+        <b-button type="submit" value="Submit" variant="success"
+          >Submit</b-button
+        >
+        <div
+          class="error-handler-div"
+          :class="{ success: getRequestStatus, error: !getRequestStatus }"
+        >
+          <span class="err-symbol" v-if="getRequestStatus">
+            <b>&#10004;</b>
+          </span>
+          <span class="err-symbol" v-if="getRequestStatus === false">
+            <b>X </b>
+          </span>
+          <span>{{ successOrErrorHandlerForDelProd }}</span>
+        </div>
       </form>
     </div>
   </div>
@@ -132,67 +155,49 @@ export default {
     },
     OnDeleteSubmit(e) {
       e.preventDefault();
-      // This is filtering through the products state with the allProducts getter
+      // This is iterating through the products state with the allProducts getter
       // return that specific product object so I can get the product ID to send to the /api/delete/:id route
-      // if () {
-
-      // }
-      let indexOf = this.allProducts.indexOf(products => {
-        // products.productName === this.willDelete;
-        console.log(products.productName);
+      let findProduct = this.allProducts.find(products => {
+        return (
+          products.productName.toLowerCase() === this.willDelete.toLowerCase()
+        );
       });
-      // let prodID = this.allProducts.filter(products => {
-      //   return (
-      //     products.productName.toLowerCase() === this.willDelete.toLowerCase()
-      //   );
-      // });
-      console.log(indexOf);
+      // console.log(findProduct);
+      let payload = "";
 
-      // console.log("delButt", prodID);
+      if (findProduct !== "") {
+        // sending the whole product detail/object as a whole to delete
+        payload = findProduct;
+        console.log(payload);
+        this.deleteProduct(payload);
+      } else {
+        // payload = null;
+        this.deleteProduct(payload);
+        // console.log("Product not found");
 
-      // const productTest = this.allProducts.forEach(test => {
-      //   if (test.productName.toLowerCase() === this.willDelete.toLowerCase())
-      //     console.log("yooo");
-
-      //   // console.log(this.willDelete);
-      //   // console.log(product.productName);
-      // });
-      // // console.log(productTest);
-
-      // console.log(this.willDelete);
-      // for (let products in this.allProducts) {
-      //
-      //   }
-      // }
-      // let findProductID = this.allProducts.find(
-      //   products =>
-      //     products.productName.toLowerCase() === this.willDelete.toLowerCase()
-      // );
-      // console.log(findProductID);
-      // this.allProducts.forEach(products => {
-      //   if (products.)
-      //   console.log(products.productName.toLowerCase());
-      // });
-      // const productID = this.allProducts.findIndex(
-      //   product => product.productName === this.willDelete
-      // );
-      // console.log(productID);
-      // console.log(this.willDelete.toLowerCase());
-      // for (let i = 0; i < this.allProducts.length; i++) {
-      //   if (this.allProducts)
-      //   // console.log(this.allProducts[i]);
-      // }
-      console.log(this.willDelete);
-      const payload = this.willDelete;
-      this.deleteProduct(payload);
+        // this.deleteProduct(payload);
+      }
+      // console.log("hittt");
+      // payload = findProduct._id;
+      // console.log(payload);
+      // this.deleteProduct({ payload: payload });
     }
   },
   computed: {
     ...mapGetters(["getErrorMsg", "getRequestStatus", "allProducts"]),
     ...mapState(["promotions", "productPromotionsActivated"]),
-    successOrErrorHandler() {
+    successOrErrorHandlerForAddProd() {
       if (this.getRequestStatus) {
         return "Product Added!";
+      } else if (this.getRequestStatus == false) {
+        return this.getErrorMsg;
+      } else {
+        return "";
+      }
+    },
+    successOrErrorHandlerForDelProd() {
+      if (this.getRequestStatus) {
+        return "Product Deleted!";
       } else if (this.getRequestStatus == false) {
         return this.getErrorMsg;
       } else {

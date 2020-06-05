@@ -46,9 +46,9 @@ module.exports = (app) => {
   });
 
   // Delete a product
-  app.delete('/api/product/:product', async (req, res, next) => {
+  app.delete('/api/product/:id', async (req, res, next) => {
     try {
-      const test = await req.params.product;
+      const test = await req.params.id;
       console.log(test);
     } catch {
       console.log('nothing');
