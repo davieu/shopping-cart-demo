@@ -22,11 +22,17 @@ export default {
 
   async deleteProduct({ commit }, payload) {
     try {
-      axios.delete(`api/product/${payload._id}`, payload);
-      console.log("actionPayload", payload);
-      commit("deleteProductState", payload);
+      const response = await axios.delete(`api/product/${payload._id}`);
+
+      // if there is a response message from the server then it means the product is protected and cannot be deleted
+      // first two items are protected. apple and orange
+      if (response.data.msg) {
+        commit("sendError", response.data.msg);
+      } else {
+        // if no error, commit to state and remove the product frmo state
+        commit("deleteProductState", payload);
+      }
     } catch (err) {
-      console.log("ERRRORRORORO");
       const errObj = { errMsg: "Product not found for deletion.", err };
       commit("sendError", errObj.errMsg);
     }

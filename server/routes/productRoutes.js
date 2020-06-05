@@ -48,29 +48,23 @@ module.exports = (app) => {
   // Delete a product
   app.delete('/api/product/:id', async (req, res, next) => {
     try {
-      const test = await req.params.id;
-      console.log(test);
-    } catch {
-      console.log('nothing');
+      const deletedProduct = await Product.findById(req.params.id).exec();
+      if (deletedProduct.cannotDelete === true) {
+        return res.send({ msg: 'Cannot delete this item. It is protected' });
+      } else {
+        const result = await Product.deleteOne({ _id: req.params.id }).exec();
+        // Sends the result status of the delete and the product deleted
+        return res.send({
+          deletedProduct,
+          result,
+        });
+      }
+    } catch (err) {
+      return res.status(404).send({
+        msg: 'Product could not be found for deletion please try again',
+        err,
+      });
     }
-    // try {
-    //   const deletedProduct = await Product.findById(req.params.id).exec();
-    //   if (deletedProduct.cannotDelete === true) {
-    //     return res.send({ msg: 'Cannot delete this item. It is protected' });
-    //   } else {
-    //     const result = await Product.deleteOne({ _id: req.params.id }).exec();
-    //     // Sends the result status of the delete and the product deleted
-    //     return res.send({
-    //       deletedProduct,
-    //       result,
-    //     });
-    //   }
-    // } catch (err) {
-    //   return res.status(404).send({
-    //     msg: 'Product could not be found for deletion please try again',
-    //     err,
-    //   });
-    // }
   });
 
   // Update a product

@@ -54,15 +54,19 @@ export default {
   },
 
   deleteProductState: (state, deletedProduct) => {
-    // finds the index of the deleted product in the state
+    // finds the index of the deleted product inputed in the state
     let indexOfDeletedProd = state.products.findIndex(products => {
       return products._id === deletedProduct._id;
     });
 
-    // deletes/splices out the product that is chosen for deletion from the state
-    state.products.splice(indexOfDeletedProd, 1);
-    state.typeOfProductCountInCart.splice(indexOfDeletedProd, 1);
+    // This is for my protected products so people wont delete my initial products.
+    if (deletedProduct.cannotDelete !== true) {
+      // deletes/splices out the product that is chosen for deletion from the state
+      state.products.splice(indexOfDeletedProd, 1);
+      state.typeOfProductCountInCart.splice(indexOfDeletedProd, 1);
+    }
 
+    // this is for the error/success msgs on failed or complete
     setTimeout(() => (state.requestStatus = null), 1500);
     state.requestStatus = true;
     state.errorMsg = "";
