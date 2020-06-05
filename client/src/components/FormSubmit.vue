@@ -119,6 +119,12 @@
           <span v-if="deleteMSG">{{ successOrErrorHandlerForDelProd }}</span>
         </div>
       </form>
+      <!-- 
+        TESTING DELETE ON STATE
+      <div v-for="(product, index) in allProducts" :key="product._id">
+        <p>{{ index }}{{ product }}</p>
+      </div> 
+      -->
     </div>
   </div>
 </template>

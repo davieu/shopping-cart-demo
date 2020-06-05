@@ -1,7 +1,10 @@
 <template>
   <div>
     <b-container>
-      <div v-for="(pro,  index) in displayPromotionsActivated" :key="index"></div>
+      <div
+        v-for="(pro, index) in displayPromotionsActivated"
+        :key="index"
+      ></div>
       <!-- MODAL BEGINS -->
       <div class="modal-div">
         <b-row>
@@ -10,14 +13,13 @@
               v-if="productPromotionsActivated.length > 0"
               v-b-toggle.collapse-a.collapse-b
               variant="primary"
-            >Special Offers!</b-button>
+              >Special Offers!</b-button
+            >
           </b-col>
           <b-col>
-            <b-button
-              class="open-cart-btn"
-              v-b-modal.modal-1
-              variant="primary"
-            >Shopping Cart: {{ getCartItemsLength }}</b-button>
+            <b-button class="open-cart-btn" v-b-modal.modal-1 variant="primary"
+              >Shopping Cart: {{ getCartItemsLength }}</b-button
+            >
           </b-col>
         </b-row>
         <b-collapse
@@ -28,8 +30,8 @@
           class="mt-2"
         >
           <b-card class="special-offers-cards">
-            <b>{{promotion.productName}}:</b>
-            {{promotion.promotion}}!
+            <b>{{ promotion.productName }}:</b>
+            {{ promotion.promotion }}!
           </b-card>
         </b-collapse>
         <!-- <b-collapse id="collapse-b" class="mt-2">
@@ -39,19 +41,23 @@
         <b-modal id="modal-1" size="sm" title="Cart">
           <div v-if="getCartItemsLength > 0">
             <div v-for="(item, index) in getShoppingCart" :key="index">
-              {{item.product.productName}}:
-              <span class="product-count">{{item.product.count}}</span>
+              {{ item.product.productName }}:
+              <span class="product-count">{{ item.product.count }}</span>
               <div class="cart-btns">
                 <button
                   class="in-cart-del-btn"
                   mb="1"
-                  @click="decrementCart(item.product.productName, item.product.price)"
+                  @click="
+                    decrementCart(item.product.productName, item.product.price)
+                  "
                 >
                   <b>-</b>
                 </button>
                 <button
                   class="in-cart-add-btn"
-                  @click="incrementCart(item.product.productName, item.product.price)"
+                  @click="
+                    incrementCart(item.product.productName, item.product.price)
+                  "
                 >
                   <b>+</b>
                 </button>
@@ -79,27 +85,41 @@
           </p>
           <div slot="modal-footer" class="w-100">
             <p class="float-left"></p>
-            <b-button variant="primary" class="float-right" @checkout="show=false">Checkout</b-button>
+            <b-button
+              variant="primary"
+              class="float-right"
+              @checkout="show = false"
+              >Checkout</b-button
+            >
           </div>
         </b-modal>
       </div>
       <!-- PRODUCTS BEGIN -->
-      <b-row :class="{noPromotions: productPromotionsActivated.length < 1 }">
-        <b-col md="4" xs="12" v-for="(product) in allProducts" :key="product._id">
+      <b-row :class="{ noPromotions: productPromotionsActivated.length < 1 }">
+        <b-col md="4" xs="12" v-for="product in allProducts" :key="product._id">
           <b-card-group deck class="mb-3">
-            <b-card :header="`${product.productName}`" class="text-center cards">
+            <b-card
+              :header="`${product.productName}`"
+              class="text-center cards"
+            >
               <span
                 title="Promotion Available!"
                 v-if="promotionIconOnCard(product.productName)"
-              >&#9889;</span>
-              <span class="price">Price: {{ formatPrices(product.price) }}</span>
+                >&#9889;</span
+              >
+              <span class="price"
+                >Price: {{ formatPrices(product.price) }}</span
+              >
               <hr />
-              <b-card-text>{{product.description}}</b-card-text>
+              <b-card-text>{{ product.description }}</b-card-text>
               <b-button
-                @click="incrementCart(product.productName, product.price, product._id)"
+                @click="
+                  incrementCart(product.productName, product.price, product._id)
+                "
                 variant="success"
                 class="add-cart-btn"
-              >Add to Cart!</b-button>
+                >Add to Cart!</b-button
+              >
             </b-card>
           </b-card-group>
         </b-col>

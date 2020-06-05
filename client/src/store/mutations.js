@@ -54,9 +54,15 @@ export default {
   },
 
   deleteProductState: (state, deletedProduct) => {
-    // console.log("mutDELerrot", state.errorMsg);
-    console.log("mutationDelete", deletedProduct);
-    // console.log(state.typeOfProductCountInCart);
+    // finds the index of the deleted product in the state
+    let indexOfDeletedProd = state.products.findIndex(products => {
+      return products._id === deletedProduct._id;
+    });
+
+    // deletes/splices out the product that is chosen for deletion from the state
+    state.products.splice(indexOfDeletedProd, 1);
+    state.typeOfProductCountInCart.splice(indexOfDeletedProd, 1);
+
     setTimeout(() => (state.requestStatus = null), 1500);
     state.requestStatus = true;
     state.errorMsg = "";
