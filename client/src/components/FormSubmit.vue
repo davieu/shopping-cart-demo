@@ -73,13 +73,13 @@
           class="error-handler-div"
           :class="{ success: getRequestStatus, error: !getRequestStatus }"
         >
-          <span class="err-symbol" v-if="getRequestStatus">
+          <span class="err-symbol" v-if="getRequestStatus && addMSG">
             <b>&#10004;</b>
           </span>
-          <span class="err-symbol" v-if="getRequestStatus === false">
+          <span class="err-symbol" v-if="getRequestStatus === false && addMSG">
             <b>X </b>
           </span>
-          <span>{{ successOrErrorHandlerForAddProd }}</span>
+          <span v-if="addMSG">{{ successOrErrorHandlerForAddProd }}</span>
         </div>
       </b-form>
     </div>
@@ -102,15 +102,21 @@
         >
         <div
           class="error-handler-div"
-          :class="{ success: getRequestStatus, error: !getRequestStatus }"
+          :class="{
+            success: getRequestStatus,
+            error: !getRequestStatus
+          }"
         >
-          <span class="err-symbol" v-if="getRequestStatus">
+          <span class="err-symbol" v-if="getRequestStatus && deleteMSG">
             <b>&#10004;</b>
           </span>
-          <span class="err-symbol" v-if="getRequestStatus === false">
+          <span
+            class="err-symbol"
+            v-if="getRequestStatus === false && deleteMSG"
+          >
             <b>X </b>
           </span>
-          <span>{{ successOrErrorHandlerForDelProd }}</span>
+          <span v-if="deleteMSG">{{ successOrErrorHandlerForDelProd }}</span>
         </div>
       </form>
     </div>
@@ -129,7 +135,9 @@ export default {
         description: ""
       },
       promotionSubmitData: [],
-      willDelete: ""
+      willDelete: "",
+      deleteMSG: false,
+      addMSG: false
     };
   },
   methods: {
@@ -141,12 +149,16 @@ export default {
     ]),
 
     onPostSubmit(e) {
+      // local state - for handling the err/success msgs
+      this.deleteMSG = false;
+      this.addMSG = true;
       e.preventDefault();
       // trim excess white space
       this.formData.productName = this.formData.productName.trim();
       this.formData.description = this.formData.description.trim();
       const payload = this.formData;
       this.addProduct(payload);
+      // this.addMSG = false;
     },
     onPromotionsSubmit(e) {
       e.preventDefault();
@@ -154,6 +166,9 @@ export default {
       this.addPromotionToProduct(payload);
     },
     OnDeleteSubmit(e) {
+      // local state - for handling the err/success msgs
+      this.addMSG = false;
+      this.deleteMSG = true;
       e.preventDefault();
       // This is iterating through the products state with the allProducts getter
       // return that specific product object so I can get the product ID to send to the /api/delete/:id route
@@ -162,25 +177,15 @@ export default {
           products.productName.toLowerCase() === this.willDelete.toLowerCase()
         );
       });
-      // console.log(findProduct);
       let payload = "";
 
       if (findProduct !== "") {
-        // sending the whole product detail/object as a whole to delete
         payload = findProduct;
         console.log(payload);
         this.deleteProduct(payload);
       } else {
-        // payload = null;
         this.deleteProduct(payload);
-        // console.log("Product not found");
-
-        // this.deleteProduct(payload);
       }
-      // console.log("hittt");
-      // payload = findProduct._id;
-      // console.log(payload);
-      // this.deleteProduct({ payload: payload });
     }
   },
   computed: {

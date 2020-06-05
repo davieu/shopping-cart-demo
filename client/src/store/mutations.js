@@ -57,9 +57,9 @@ export default {
     // console.log("mutDELerrot", state.errorMsg);
     console.log("mutationDelete", deletedProduct);
     // console.log(state.typeOfProductCountInCart);
-    // setTimeout(() => (state.requestStatus = null), 1500);
-    // state.requestStatus = true;
-    // state.errorMsg = "";
+    setTimeout(() => (state.requestStatus = null), 1500);
+    state.requestStatus = true;
+    state.errorMsg = "";
   },
 
   sendError: (state, errMsg) => {

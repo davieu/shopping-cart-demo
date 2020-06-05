@@ -21,17 +21,9 @@ export default {
   },
 
   async deleteProduct({ commit }, payload) {
-    // if (payload) {
-
-    // }
-    console.log("actionPayload", payload);
-    // payload = object
-    // payload._id sending only the id
     try {
-      const response = await axios.delete(
-        `api/product/${payload._id}`,
-        payload
-      );
+      axios.delete(`api/product/${payload._id}`, payload);
+      console.log("actionPayload", payload);
       commit("deleteProductState", payload);
     } catch (err) {
       console.log("ERRRORRORORO");
