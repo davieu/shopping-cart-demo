@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- TOGGLE PROMOTIONS -->
+    <!-- TOGGLE PROMOTIONS test-->
     <h1>Activate Promotions</h1>
     <div class="promotions-div">
       {{ promotions[0].promotionFunc() }}
