@@ -87,7 +87,7 @@
     <hr />
 
     <!-- DELETE PRODUCTS -->
-    <h1>Delete Product (Disabled)</h1>
+    <h1>Delete Product</h1>
     <div class="products-list">
       <form @submit="OnDeleteSubmit">
         <input

@@ -79,6 +79,10 @@ export default {
     setTimeout(() => (state.requestStatus = null), 2000);
   },
 
+  updateProductState: (state, updatedProduct) => {
+    console.log(updatedProduct);
+  },
+
   pushProductToCart: (state, addedToCart) => {
     state.cartArray.push(addedToCart.productName);
     // gets the index of the productName in the typeOfProductCountInCart state array

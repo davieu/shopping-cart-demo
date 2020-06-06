@@ -25,11 +25,11 @@ export default {
       const response = await axios.delete(`api/product/${payload._id}`);
 
       // if there is a response message from the server then it means the product is protected and cannot be deleted
-      // first two items are protected. apple and orange
+      // first few items are protected. apple and orange, etc
       if (response.data.msg) {
         commit("sendError", response.data.msg);
       } else {
-        // if no error, commit to state and remove the product frmo state
+        // if no error, commit to state and remove the product from state
         commit("deleteProductState", payload);
       }
     } catch (err) {
@@ -37,6 +37,11 @@ export default {
       commit("sendError", errObj.errMsg);
     }
   },
+
+  async updateProduct({ commit }, payload) {
+    commit("updateProductState", payload);
+  },
+
   addProductToCart({ commit }, payload) {
     commit("pushProductToCart", payload);
   },
