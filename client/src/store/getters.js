@@ -2,6 +2,12 @@ import axios from "axios";
 
 export default {
   allProducts: state => state.products,
+  getDetails: state => {
+    let productNamesArr = state.products.map(products => {
+      return products.productName;
+    });
+    return productNamesArr.sort();
+  },
   getErrorMsg: state => state.errorMsg,
   getRequestStatus: state => state.requestStatus,
   getShoppingCart: state =>

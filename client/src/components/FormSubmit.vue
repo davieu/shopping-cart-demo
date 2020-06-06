@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- TOGGLE PROMOTIONS test-->
+    <!-- TOGGLE PROMOTIONS -->
     <h1>Activate Promotions</h1>
     <div class="promotions-div">
       {{ promotions[0].promotionFunc() }}
@@ -119,14 +119,96 @@
           <span v-if="deleteMSG">{{ successOrErrorHandlerForDelProd }}</span>
         </div>
       </form>
-      <!-- 
-        TESTING DELETE ON STATE
-      <div v-for="(product, index) in allProducts" :key="product._id">
-        <p>{{ index }}{{ product }}</p>
-      </div> 
-      -->
+    </div>
+    <br />
+    <hr />
+
+    <!-- UPDATE PRODUCTS -->
+    <h1>Update Product</h1>
+    <br />
+    <div class="products-list">
+      <b-form @submit="onPostSubmit">
+        <h5>Select Product to Update</h5>
+        <p v-if="updateThisProduct">
+          <b>{{ updateThisProduct }}</b
+          >: This product will be updated
+        </p>
+        <b-form-select
+          id="my-list-id"
+          :select-size="10"
+          v-model="updateThisProduct"
+        >
+          <option></option>
+          <option v-for="(product, index) in getDetails" :key="index">{{
+            product
+          }}</option>
+        </b-form-select>
+        <br />
+        <br />
+        <!-- <input
+          type="text"
+          class="input-field"
+          v-model="updateThisProduct"
+          required
+          placeholder="The product you want to update..."
+        />
+        <br /> -->
+        <input
+          type="text"
+          class="input-field"
+          v-model="formData.productName"
+          required
+          placeholder="Change product name to..."
+        />
+        <br />
+        <p v-if="updateThisProduct">
+          Current Price: <b>{{ prodDetails.price }}</b>
+        </p>
+        <input
+          type="number"
+          step="0.01"
+          class="input-field"
+          v-model="formData.price"
+          required
+          placeholder="Change price to..."
+        />
+        <br />
+        <p v-if="updateThisProduct">
+          Current Description: <b>{{ prodDetails.description }}</b>
+        </p>
+        <input
+          type="text"
+          class="input-field"
+          v-model="formData.description"
+          required
+          placeholder="Change description to..."
+        />
+        <br />
+        <b-button type="submit" value="Submit" variant="success"
+          >Submit</b-button
+        >
+        <div
+          class="error-handler-div"
+          :class="{ success: getRequestStatus, error: !getRequestStatus }"
+        >
+          <span class="err-symbol" v-if="getRequestStatus && addMSG">
+            <b>&#10004;</b>
+          </span>
+          <span class="err-symbol" v-if="getRequestStatus === false && addMSG">
+            <b>X </b>
+          </span>
+          <span v-if="addMSG">{{ successOrErrorHandlerForAddProd }}</span>
+        </div>
+      </b-form>
     </div>
   </div>
+
+  <!-- 
+      // TESTING STATE - shows the whole state so you can check what changed
+        <div v-for="(product, index) in allProducts" :key="product._id">
+          <p>{{ index }}{{ product }}</p>
+        </div> 
+    -->
 </template>
 
 <script>
@@ -143,7 +225,8 @@ export default {
       promotionSubmitData: [],
       willDelete: "",
       deleteMSG: false,
-      addMSG: false
+      addMSG: false,
+      updateThisProduct: ""
     };
   },
   methods: {
@@ -192,10 +275,18 @@ export default {
       } else {
         this.deleteProduct(payload);
       }
+    },
+    onUpdateSubmit(e) {
+      e.preventDefault();
     }
   },
   computed: {
-    ...mapGetters(["getErrorMsg", "getRequestStatus", "allProducts"]),
+    ...mapGetters([
+      "getErrorMsg",
+      "getRequestStatus",
+      "allProducts",
+      "getDetails"
+    ]),
     ...mapState(["promotions", "productPromotionsActivated"]),
     successOrErrorHandlerForAddProd() {
       if (this.getRequestStatus) {
@@ -214,6 +305,21 @@ export default {
       } else {
         return "";
       }
+    },
+    prodDetails() {
+      let details = "";
+      if (this.updateThisProduct) {
+        details = this.allProducts.find(prod => {
+          return prod.productName === this.updateThisProduct;
+        });
+      }
+      return details;
+      // console.log(details);
+      // let test = this.getDetails
+      // if (this.updateThisProduct !== thi)
+      // console.log(this.allProducts[0]);
+      // console.log(this.updateThisProduct);
+      // console.log(this.getDetails);
     }
   },
   mounted() {
