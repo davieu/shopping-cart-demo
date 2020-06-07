@@ -281,8 +281,10 @@ export default {
       this.addPromotionToProduct(payload);
     },
     OnDeleteSubmit(e) {
-      // local state - for handling the err/success msgs
+      // Needed this to reset the state for the item to be updated. If the item to be updated is deleted it
+      // would cause a bug so on delete it resets the item to be deleted to empty.
       this.updateThisProduct = "";
+      // local state - for handling the err/success msgs
       this.updateMSG = false;
       this.addMSG = false;
       this.deleteMSG = true;
@@ -305,13 +307,8 @@ export default {
       } else {
         this.deleteProduct(payload);
       }
-
-      // console.log(this.willDelete);
-      // console.log(this.updateThisProduct);
-      // if (willDelete === updateThisProduct) {
-
-      // }
     },
+
     onUpdateSubmit(e) {
       this.deleteMSG = false;
       this.updateMSG = true;
@@ -389,35 +386,8 @@ export default {
           );
         });
       }
-      console.log(this.updateThisProduct);
 
-      // if (details) {
       return details;
-      // } else {
-
-      // }
-
-      // console.log(details);
-      // console.log(this.allProducts);
-      // console.log(this.updateThisProduct);
-      // console.log(details);
-      // if (details) {
-      //   return details;
-      // } else {
-      //   console.log("herhererer");
-      //   let length = this.allProducts.length;
-      //   // details = this.allProducts[length]
-      //   console.log(this.allProducts[length - 1]);
-      // }
-
-      // if (Object.keys(details).length === 0) {
-      //   details.productName = "error";
-      //   details.price = "error";
-      //   details.description = "error";
-      // } else {
-      //   return details;
-      //   console.log(details);
-      // }
     }
   },
   mounted() {
