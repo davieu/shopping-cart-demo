@@ -39,7 +39,13 @@ export default {
   },
 
   async updateProduct({ commit }, payload) {
-    commit("updateProductState", payload);
+    try {
+      let response = await axios.put(
+        `api/product/${payload.id}`,
+        payload.product
+      );
+      commit("updateProductState", payload);
+    } catch {}
   },
 
   addProductToCart({ commit }, payload) {

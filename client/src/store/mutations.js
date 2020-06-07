@@ -51,6 +51,7 @@ export default {
     state.requestStatus = true;
     state.errorMsg = "";
     state.products.push(addedProduct);
+    console.log(("mutADD", state));
   },
 
   deleteProductState: (state, deletedProduct) => {
@@ -72,15 +73,15 @@ export default {
     state.errorMsg = "";
   },
 
+  updateProductState: (state, updatedProduct) => {
+    console.log(updatedProduct);
+  },
+
   sendError: (state, errMsg) => {
     state.requestStatus = false;
     state.errorMsg = errMsg;
     // timeout for the err msg. only lasts for 2s
     setTimeout(() => (state.requestStatus = null), 2000);
-  },
-
-  updateProductState: (state, updatedProduct) => {
-    console.log(updatedProduct);
   },
 
   pushProductToCart: (state, addedToCart) => {

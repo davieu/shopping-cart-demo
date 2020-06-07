@@ -69,6 +69,7 @@ module.exports = (app) => {
 
   // Update a product
   app.put('/api/product/:id', async (req, res, next) => {
+    console.log(req.body);
     try {
       const updatedProduct = await Product.findById(req.params.id);
       // protected product. cannot delete or update
