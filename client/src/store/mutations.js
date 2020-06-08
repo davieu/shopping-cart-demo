@@ -30,6 +30,7 @@ export default {
   },
 
   newProduct: (state, addedProduct) => {
+    console.log(addedProduct);
     // timeout for the success msg. only lasts for 1.5s
     setTimeout(() => (state.requestStatus = null), 1500);
     // This uppercase var was needed because the object productName sent was lowercase and I needed the first letter uppercase to store in the state

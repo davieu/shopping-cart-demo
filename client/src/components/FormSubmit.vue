@@ -316,7 +316,8 @@ export default {
       this.updateMSG = true;
       this.addMSG = false;
       e.preventDefault();
-
+      console.log(this.allProducts);
+      console.log(this.updateThisProduct);
       let productDetails = this.allProducts.find(prod => {
         return prod.productName === this.updateThisProduct;
       });
@@ -328,7 +329,13 @@ export default {
         this.formDataUpdate.productName.toLowerCase() !==
           this.updateThisProduct.toLowerCase()
       ) {
-        payload.product.productName = this.formDataUpdate.productName;
+        let uppercaseName =
+          this.formDataUpdate.productName[0].toUpperCase() +
+          this.formDataUpdate.productName.substring(
+            1,
+            this.formDataUpdate.productName.length
+          );
+        payload.product.productName = uppercaseName;
       }
       if (this.formDataUpdate.price) {
         payload.product.price = this.formDataUpdate.price;
@@ -338,8 +345,9 @@ export default {
       }
 
       // this will be sent to the action/mutation if their is data in payload.product object
+      console.log(payload);
       if (Object.keys(payload.product).length !== 0) {
-        this.updateing = true;
+        this.updating = true;
         this.updateProduct(payload);
       } else {
         this.errorFound("Please fill out form.");
@@ -382,9 +390,23 @@ export default {
       }
     },
     prodDetails() {
-      let details = "";
+      console.log("dkdkdkdk", this.updateThisProduct);
+      console.log(this.allProducts);
+      let details = {};
+      // let copyUpdateThisProduct = this.updateThisProduct;
+
       if (this.updating) {
+        // details.productName = "";
+        // details.price = "";
+        // details.description = "";
+        // if (payload.productName) {
+        // setTimeout(() => {
+        //   return details;
+        // }, 1500);
+        // }
+        this.updateThisProduct = "";
       }
+
       if (this.updateThisProduct) {
         details = this.allProducts.find(prod => {
           return (
@@ -393,8 +415,34 @@ export default {
           );
         });
       }
+      console.log(details);
 
+      // let upperCase =
+      //   details.productName[0].toUpperCase() +
+      //   details.productName.substring(1, details.productName.length);
+
+      // this.updateThisProduct = upperCase;
+      this.updating = false;
       return details;
+
+      // if (this.updating) {
+      //   setTimeout(() => {
+      //     this.updateThisProduct = details.productName;
+      //     this.updating = false;
+      //     return details;
+      //   }, 1500);
+      // } else {
+      //   return details;
+      // }
+
+      // if (this.updateThisProduct) {
+      //   details = this.allProducts.find(prod => {
+      //     return (
+      //       prod.productName.toLowerCase() ===
+      //       this.updateThisProduct.toLowerCase()
+      //     );
+      //   });
+      // }
     }
   },
   mounted() {
