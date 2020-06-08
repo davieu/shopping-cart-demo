@@ -395,7 +395,16 @@ export default {
       let details = {};
       // let copyUpdateThisProduct = this.updateThisProduct;
 
-      if (this.updating) {
+      if (this.updateThisProduct) {
+        details = this.allProducts.find(prod => {
+          return (
+            prod.productName.toLowerCase() ===
+            this.updateThisProduct.toLowerCase()
+          );
+        });
+      }
+
+      if (this.updating && details.productName) {
         // details.productName = "";
         // details.price = "";
         // details.description = "";
@@ -404,16 +413,11 @@ export default {
         //   return details;
         // }, 1500);
         // }
-        this.updateThisProduct = "";
-      }
 
-      if (this.updateThisProduct) {
-        details = this.allProducts.find(prod => {
-          return (
-            prod.productName.toLowerCase() ===
-            this.updateThisProduct.toLowerCase()
-          );
-        });
+        let test = this.formDataUpdate.productName;
+        let uppercaseName =
+          test[0].toUpperCase() + test.substring(1, test.length);
+        this.updateThisProduct = uppercaseName;
       }
       console.log(details);
 
@@ -423,6 +427,7 @@ export default {
 
       // this.updateThisProduct = upperCase;
       this.updating = false;
+      // this.updateThisProduct = formDataUpdate.productName;
       return details;
 
       // if (this.updating) {
