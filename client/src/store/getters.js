@@ -3,17 +3,15 @@ import axios from "axios";
 export default {
   allProducts: state => state.products,
   getArrayOfProductNames: state => {
-    console.log(state);
     let productsArr = [];
     for (let i = 0; i < state.products.length; i++) {
-      // if the product is protected from being altered, cannotDelete=True then it will not show up
       let upperCase =
         state.products[i].productName[0].toUpperCase() +
         state.products[i].productName.substring(
           1,
           state.products[i].productName.length
         );
-      // console.log(upperCase);
+      // if the product is protected from being altered, cannotDelete=True then it will not show up
       if (!state.products[i].cannotDelete) {
         productsArr.push(upperCase);
         // state.products[i].productName

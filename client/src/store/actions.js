@@ -45,9 +45,16 @@ export default {
         payload.product
       );
       commit("updateProductState", payload);
-    } catch {}
+    } catch {
+      const errObj = { errMsg: "Error updating product.", err };
+      commit("sendError", errObj.errMsg);
+    }
   },
 
+  errorFound({ commit }, payload) {
+    const errObj = { errMsg: payload };
+    commit("sendError", errObj.errMsg);
+  },
   addProductToCart({ commit }, payload) {
     commit("pushProductToCart", payload);
   },

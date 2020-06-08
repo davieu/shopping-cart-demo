@@ -22,15 +22,14 @@ export default {
           }
         });
       }
-      console.log(state.typeOfProductCountInCart);
     }
     // once ran once. the initialization for the typeOfProductCountInCart state will not run again
     state.initializeState = false;
     state.products = products;
+    console.log(state);
   },
 
   newProduct: (state, addedProduct) => {
-    console.log("mutNewProd", addedProduct);
     // timeout for the success msg. only lasts for 1.5s
     setTimeout(() => (state.requestStatus = null), 1500);
     // This uppercase var was needed because the object productName sent was lowercase and I needed the first letter uppercase to store in the state
@@ -51,7 +50,6 @@ export default {
     state.requestStatus = true;
     state.errorMsg = "";
     state.products.push(addedProduct);
-    console.log(("mutADD", state));
   },
 
   deleteProductState: (state, deletedProduct) => {
@@ -75,13 +73,52 @@ export default {
 
   updateProductState: (state, updatedProduct) => {
     console.log(updatedProduct);
-  },
 
-  sendError: (state, errMsg) => {
-    state.requestStatus = false;
-    state.errorMsg = errMsg;
-    // timeout for the err msg. only lasts for 2s
-    setTimeout(() => (state.requestStatus = null), 2000);
+    // finds the index of the product being updates to update the one chosen
+    let indexOfProductInState = state.products.findIndex(prod => {
+      return prod._id === updatedProduct.id;
+    });
+
+    // if blocks to check if data for that specific property is being updated.
+    // if that property is being updated ex. product name then update state
+    if (updatedProduct.product.productName) {
+      state.products[indexOfProductInState].productName =
+        updatedProduct.product.productName;
+
+      let uppercaseName =
+        updatedProduct.product.productName[0].toUpperCase() +
+        updatedProduct.product.productName.substring(
+          1,
+          updatedProduct.product.productName.length
+        );
+      state.typeOfProductCountInCart[
+        indexOfProductInState
+      ].product.productName = uppercaseName;
+    }
+    if (updatedProduct.product.description) {
+      state.products[indexOfProductInState].description =
+        updatedProduct.product.description;
+    }
+
+    if (updatedProduct.product.price) {
+      console.log("yoloyoyoy");
+      state.products[indexOfProductInState].price =
+        updatedProduct.product.price;
+
+      state.typeOfProductCountInCart[
+        indexOfProductInState
+      ].product.productName = updatedProduct.product.price;
+    }
+    // console.log(state.products);
+    // copyStateProducts[indexOfProductInState] = updatedProduct;
+    // console.log(copyStateProducts);
+    // copyStateProducts =
+
+    // state.products;
+
+    setTimeout(() => (state.requestStatus = null), 1500);
+    state.requestStatus = true;
+    state.errorMsg = "";
   },
 
   pushProductToCart: (state, addedToCart) => {
@@ -94,8 +131,13 @@ export default {
     state.typeOfProductCountInCart[indexOfProductName].product.count += 1;
     state.typeOfProductCountInCart[indexOfProductName].product.inCart = true;
     state.totalCost += addedToCart.price;
-    console.log(state.typeOfProductCountInCart);
-    console.log(state.cartArray);
+  },
+
+  sendError: (state, errMsg) => {
+    state.requestStatus = false;
+    state.errorMsg = errMsg;
+    // timeout for the err msg. only lasts for 2s
+    setTimeout(() => (state.requestStatus = null), 2000);
   },
 
   removeFromCart: (state, removedFromCart) => {
@@ -130,9 +172,6 @@ export default {
           promotion.isActivated = true;
         }
       }
-      console.log(promotion.isActivated);
     });
-    console.log(state.promotions);
-    console.log(state.productPromotionsActivated);
   }
 };

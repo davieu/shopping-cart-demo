@@ -249,7 +249,8 @@ export default {
       deleteMSG: false,
       addMSG: false,
       updateMSG: false,
-      updateThisProduct: ""
+      updateThisProduct: "",
+      updating: false
     };
   },
   methods: {
@@ -258,7 +259,8 @@ export default {
       "addPromotionToProduct",
       "deleteProduct",
       "updateProduct",
-      "fetchProducts"
+      "fetchProducts",
+      "errorFound"
     ]),
 
     onPostSubmit(e) {
@@ -337,7 +339,10 @@ export default {
 
       // this will be sent to the action/mutation if their is data in payload.product object
       if (Object.keys(payload.product).length !== 0) {
+        this.updateing = true;
         this.updateProduct(payload);
+      } else {
+        this.errorFound("Please fill out form.");
       }
     }
   },
@@ -378,6 +383,8 @@ export default {
     },
     prodDetails() {
       let details = "";
+      if (this.updating) {
+      }
       if (this.updateThisProduct) {
         details = this.allProducts.find(prod => {
           return (
