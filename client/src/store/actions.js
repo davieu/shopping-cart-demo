@@ -9,13 +9,11 @@ export default {
   },
 
   async addProduct({ commit }, payload) {
-    console.log(payload);
     try {
       const response = await axios.post("api/product", payload);
       commit("newProduct", response.data);
     } catch (err) {
       const errObj = { errMsg: "Product name already in use.", err };
-      console.log("error hit");
       commit("sendError", errObj.errMsg);
     }
   },
@@ -44,7 +42,12 @@ export default {
         `api/product/${payload.id}`,
         payload.product
       );
-      commit("updateProductState", payload);
+
+      if (response.data.msg) {
+        commit("sendError", response.data.msg);
+      } else {
+        commit("updateProductState", payload);
+      }
     } catch {
       const errObj = { errMsg: "Error updating product.", err };
       commit("sendError", errObj.errMsg);

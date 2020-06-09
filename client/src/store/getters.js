@@ -5,15 +5,17 @@ export default {
   getArrayOfProductNames: state => {
     let productsArr = [];
     for (let i = 0; i < state.products.length; i++) {
+      /*
       let upperCase =
         state.products[i].productName[0].toUpperCase() +
         state.products[i].productName.substring(
           1,
           state.products[i].productName.length
         );
+        */
       // if the product is protected from being altered, cannotDelete=True then it will not show up
       if (!state.products[i].cannotDelete) {
-        productsArr.push(upperCase);
+        productsArr.push(state.products[i].productName);
         // state.products[i].productName
       }
     }

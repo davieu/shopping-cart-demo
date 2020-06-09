@@ -1,5 +1,6 @@
 export default {
   setProducts: (state, products) => {
+    /*
     products.forEach(product => {
       // quick name shortener
       let prodName = product.productName;
@@ -7,6 +8,7 @@ export default {
       product.productName =
         prodName[0].toUpperCase() + prodName.substring(1, prodName.length);
     });
+    */
     // This initializes the products and count for each product. This state is strictly for keeping count of each product type in state
     if (state.initializeState) {
       for (let i = 0; i < products.length; i++) {
@@ -26,11 +28,9 @@ export default {
     // once ran once. the initialization for the typeOfProductCountInCart state will not run again
     state.initializeState = false;
     state.products = products;
-    console.log(state);
   },
 
   newProduct: (state, addedProduct) => {
-    console.log(addedProduct);
     // timeout for the success msg. only lasts for 1.5s
     setTimeout(() => (state.requestStatus = null), 1500);
     // This uppercase var was needed because the object productName sent was lowercase and I needed the first letter uppercase to store in the state
@@ -40,7 +40,7 @@ export default {
     // adds the addedproduct to the typeOfProductCountInCart.
     state.typeOfProductCountInCart.push({
       product: {
-        productName: uppercaseName,
+        productName: addedProduct.productName,
         count: 0,
         inCart: false,
         price: addedProduct.price,
@@ -73,8 +73,6 @@ export default {
   },
 
   updateProductState: (state, updatedProduct) => {
-    console.log(updatedProduct);
-
     // finds the index of the product being updates to update the one chosen
     let indexOfProductInState = state.products.findIndex(prod => {
       return prod._id === updatedProduct.id;
@@ -86,15 +84,17 @@ export default {
       state.products[indexOfProductInState].productName =
         updatedProduct.product.productName;
 
+      /*
       let uppercaseName =
         updatedProduct.product.productName[0].toUpperCase() +
         updatedProduct.product.productName.substring(
           1,
           updatedProduct.product.productName.length
         );
+        */
       state.typeOfProductCountInCart[
         indexOfProductInState
-      ].product.productName = uppercaseName;
+      ].product.productName = updatedProduct.product.productName;
     }
     if (updatedProduct.product.description) {
       state.products[indexOfProductInState].description =
@@ -102,7 +102,6 @@ export default {
     }
 
     if (updatedProduct.product.price) {
-      console.log("yoloyoyoy");
       state.products[indexOfProductInState].price =
         updatedProduct.product.price;
 
@@ -110,12 +109,6 @@ export default {
         indexOfProductInState
       ].product.productName = updatedProduct.product.price;
     }
-    // console.log(state.products);
-    // copyStateProducts[indexOfProductInState] = updatedProduct;
-    // console.log(copyStateProducts);
-    // copyStateProducts =
-
-    // state.products;
 
     setTimeout(() => (state.requestStatus = null), 1500);
     state.requestStatus = true;

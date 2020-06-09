@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="adminWrapper">
     <!-- TOGGLE PROMOTIONS -->
     <h1>Activate Promotions</h1>
     <div class="promotions-div">
@@ -66,7 +66,11 @@
           placeholder="Description..."
         />
         <br />
-        <b-button type="submit" value="Submit" variant="success"
+        <b-button
+          class="updateProd"
+          type="submit"
+          value="Submit"
+          variant="success"
           >Submit</b-button
         >
         <div
@@ -274,7 +278,6 @@ export default {
       this.formData.description = this.formData.description.trim();
       const payload = this.formData;
       this.addProduct(payload);
-      console.log(payload);
       // this.addMSG = false;
     },
     onPromotionsSubmit(e) {
@@ -303,7 +306,6 @@ export default {
       // if product found then delete
       if (findProduct !== "") {
         payload = findProduct;
-        console.log(payload);
         this.deleteProduct(payload);
         // if not found then send empty payload and the action.js function will error handle
       } else {
@@ -316,8 +318,6 @@ export default {
       this.updateMSG = true;
       this.addMSG = false;
       e.preventDefault();
-      console.log(this.allProducts);
-      console.log(this.updateThisProduct);
       let productDetails = this.allProducts.find(prod => {
         return prod.productName === this.updateThisProduct;
       });
@@ -329,23 +329,24 @@ export default {
         this.formDataUpdate.productName.toLowerCase() !==
           this.updateThisProduct.toLowerCase()
       ) {
+        /*
         let uppercaseName =
           this.formDataUpdate.productName[0].toUpperCase() +
           this.formDataUpdate.productName.substring(
             1,
             this.formDataUpdate.productName.length
           );
-        payload.product.productName = uppercaseName;
+          */
+        payload.product.productName = this.formDataUpdate.productName.trim();
       }
       if (this.formDataUpdate.price) {
         payload.product.price = this.formDataUpdate.price;
       }
       if (this.formDataUpdate.description) {
-        payload.product.description = this.formDataUpdate.description;
+        payload.product.description = this.formDataUpdate.description.trim();
       }
 
       // this will be sent to the action/mutation if their is data in payload.product object
-      console.log(payload);
       if (Object.keys(payload.product).length !== 0) {
         this.updating = true;
         this.updateProduct(payload);
@@ -390,11 +391,8 @@ export default {
       }
     },
     prodDetails() {
-      console.log("dkdkdkdk", this.updateThisProduct);
-      console.log(this.allProducts);
       let details = {};
-      // let copyUpdateThisProduct = this.updateThisProduct;
-
+      // the product chosen in the update section
       if (this.updateThisProduct) {
         details = this.allProducts.find(prod => {
           return (
@@ -404,50 +402,40 @@ export default {
         });
       }
 
-      if (this.updating && details.productName) {
-        // details.productName = "";
-        // details.price = "";
-        // details.description = "";
-        // if (payload.productName) {
-        // setTimeout(() => {
-        //   return details;
-        // }, 1500);
-        // }
-
-        let test = this.formDataUpdate.productName;
-        let uppercaseName =
-          test[0].toUpperCase() + test.substring(1, test.length);
-        this.updateThisProduct = uppercaseName;
-      }
-      console.log(details);
-
-      // let upperCase =
-      //   details.productName[0].toUpperCase() +
-      //   details.productName.substring(1, details.productName.length);
-
-      // this.updateThisProduct = upperCase;
-      this.updating = false;
-      // this.updateThisProduct = formDataUpdate.productName;
-      return details;
-
-      // if (this.updating) {
-      //   setTimeout(() => {
-      //     this.updateThisProduct = details.productName;
-      //     this.updating = false;
-      //     return details;
-      //   }, 1500);
-      // } else {
+      // if (!this.formDataUpdate.productName) {
+      //   this.updating = false;
       //   return details;
       // }
 
-      // if (this.updateThisProduct) {
-      //   details = this.allProducts.find(prod => {
-      //     return (
-      //       prod.productName.toLowerCase() ===
-      //       this.updateThisProduct.toLowerCase()
-      //     );
-      //   });
-      // }
+      if (this.updating) {
+        let formDataUpdatedName = this.formDataUpdate.productName;
+
+        if (this.formDataUpdate.productName) {
+          this.updateThisProduct = formDataUpdatedName;
+        }
+      }
+      this.updating = false;
+      return details;
+
+      /*
+      // This is a hacck that needs to be badly worked
+      if (this.formDataUpdate.price || this.formDataUpdate.description) {
+        return details;
+      }
+      // details.productName
+      if (this.updating && this.formDataUpdate.productName) {
+        // these uppercases are need because I did bad architecture
+        let formDataUpdatedName = this.formDataUpdate.productName;
+
+        let uppercaseName =
+          formDataUpdatedName[0].toUpperCase() +
+          formDataUpdatedName.substring(1, formDataUpdatedName.length);
+
+        this.updateThisProduct = formDataUpdatedName;
+      }
+      this.updating = false;
+      return details;
+      */
     }
   },
   mounted() {
@@ -458,6 +446,12 @@ export default {
 </script>
 
 <style scoped>
+.adminWrapper {
+  padding-bottom: 200px;
+}
+/* .updateProd {
+  padding-bottom: 200px;
+} */
 .error-handler-div {
   margin-top: 15px;
 }

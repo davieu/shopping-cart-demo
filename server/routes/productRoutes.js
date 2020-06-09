@@ -70,8 +70,32 @@ module.exports = (app) => {
   // Update a product
   app.put('/api/product/:id', async (req, res, next) => {
     console.log(req.body);
+
+    // if productNameNotUnique is true then the first if block will run
+    // if (productNameNotUnique) {
+    //   return res.status(400).send({
+    //     msg: `Unable to create new product. Product name: ${addedProduct.productName} is already in use.`,
+    //     err,
+    //   });
     try {
       const updatedProduct = await Product.findById(req.params.id);
+
+      if (req.body.productName) {
+        let productNameNotUnique = null;
+        let allProducts = await Product.find().exec();
+        //looks through the DB and looks for an identical product. Then flags it.
+        allProducts.forEach((dbProduct) => {
+          if (dbProduct.productName === req.body.productName)
+            productNameNotUnique = true;
+        });
+        if (productNameNotUnique) {
+          console.log('yoyoyoyoy');
+          return res.send({
+            msg: `Unable to update. Product name: ${req.body.productName} is already in use.`,
+          });
+        }
+      }
+
       // protected product. cannot delete or update
       if (updatedProduct.cannotDelete === true) {
         return res.send({ msg: 'Cannot update this item. It is protected' });
